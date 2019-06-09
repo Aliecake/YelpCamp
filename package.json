@@ -1,0 +1,19 @@
+{
+  "name": "yelpcamp",
+  "version": "1.0.0",
+  "description": "YelpCamp",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Aliecake/YelpCamp.git"
+  },
+  "author": "Lauren Eggers",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Aliecake/YelpCamp/issues"
+  },
+  "homepage": "https://github.com/Aliecake/YelpCamp#readme"
+}
