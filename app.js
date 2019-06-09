@@ -1,5 +1,6 @@
 const express = require('express');
 const app = express();
+const bodyParser = require('body-parser');
 
 const campgrounds = [
     {'name': 'fitch', 'img': 'https://farm6.staticflickr.com/5181/5641024448_04fefbb64d.jpg'},
