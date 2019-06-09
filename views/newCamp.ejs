@@ -1,7 +1,9 @@
 <% include partials/header %>
-<form action="/addcamp" method="POST">
-    <input type="text" name="newcamp" placeholder="Name of Campground" required="required">
-    <input type="text" name="imgurl" placeholder="Image URL" required="required">
+<h1>YelpCamp</h1>
+<h3>Add a new Campground!</h3>
+<form action="/camps" method="POST">
+    <input type="text" name="name" placeholder="Name of Campground" required="required">
+    <input type="text" name="image" placeholder="Image URL" required="required">
     <button>Add a Campground</button>
 </form>
 <% include partials/footer %>

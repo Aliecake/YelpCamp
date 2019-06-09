@@ -2,6 +2,8 @@ const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 
+app.use(express.static(__dirname + '/public'));
+app.use(bodyParser.urlencoded({extended: true}));
 const campgrounds = [
     {'name': 'fitch', 'img': 'https://farm6.staticflickr.com/5181/5641024448_04fefbb64d.jpg'},
     {'name': 'rice moody','img': 'https://farm9.staticflickr.com/8422/7842069486_c61e4c6025.jpg'}
@@ -18,9 +20,14 @@ app.get('/camps', (req, res) => {
 });
 
 app.post('/camps', (req, res) => {
-    res.send('POST ROUTE!')
-    //get data and post to camps array
-    //redirect back to camps page
+    console.log(req.body)
+    const name = req.body.name;
+    const img = req.body.img
+    const newCampground = {name: name, img: img};
+
+    campgrounds.push(newCampground);
+
+    res.redirect('/camps');
 });
 app.get('/camps/new', (req, res) => {
     res.render('newCamp.ejs');
