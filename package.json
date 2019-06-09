@@ -15,5 +15,12 @@
   "bugs": {
     "url": "https://github.com/Aliecake/YelpCamp/issues"
   },
-  "homepage": "https://github.com/Aliecake/YelpCamp#readme"
+  "homepage": "https://github.com/Aliecake/YelpCamp#readme",
+  "dependencies": {
+    "ejs": "^2.6.1",
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "nodemon": "^1.19.1"
+  }
 }
