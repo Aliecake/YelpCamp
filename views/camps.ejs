@@ -1,3 +1,5 @@
+<% include partials/header.ejs %>
+
 <h1>Campgrounds</h1>
 <% campgrounds.forEach((camp) => { %>
     <div>
@@ -6,3 +8,4 @@
     <div>
     <%= console.log(camp['img']); %>
 <% }) %>
+<% include partials/footer.ejs %>
