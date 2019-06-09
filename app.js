@@ -17,6 +17,15 @@ app.get('/camps', (req, res) => {
     res.render('camps', {campgrounds: campgrounds});
 });
 
+app.post('/camps', (req, res) => {
+    res.send('POST ROUTE!')
+    //get data and post to camps array
+    //redirect back to camps page
+});
+app.get('/camps/new', (req, res) => {
+    res.render('newCamp.ejs');
+});
+
 app.get('*', (req, res) => {
     res.send('404 not found, press back')
 });
