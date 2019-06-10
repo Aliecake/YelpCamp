@@ -2,14 +2,17 @@
 <header class="jumbotron">
     <h1>Campgrounds</h1>
 </header>
-
-<a href="/camps/new">Add a Campground.</a>
-<% campgrounds.forEach((camp) => { %>
-    <div class="p-4 m-4">
-        <span class="campName"><%= camp['name'] %></span>
-        <span class="campImg"><img src="<%= camp['img'] %>"></span>
-    <div>
-<% }) %>
+<div class="container-fluid">
+    <p>
+        <a class="btn btn-primary btn-md" href="/camps/new">Add a Campground</a>
+    </p>
+    <% campgrounds.forEach((camp) => { %>
+        <div class="p-4 m-4">
+            <span class="campName"><%= camp['name'] %></span>
+            <span class="campImg"><img src="<%= camp['img'] %>"></span>
+        <div>
+    <% }) %>
+</div>
 
 TM 2019
 <% include partials/footer %>

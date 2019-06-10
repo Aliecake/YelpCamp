@@ -1,9 +1,19 @@
 <% include partials/header %>
-<h1>YelpCamp</h1>
+<header class="jumbotron">
+    <h1>YelpCamp</h1>
+</header>
 <h3>Add a new Campground!</h3>
-<form action="/camps" method="POST">
-    <input type="text" name="name" placeholder="Name of Campground" required="required">
-    <input type="text" name="image" placeholder="Image URL" required="required">
-    <button>Add a Campground</button>
-</form>
+<div class="w-75 p-3">
+    <form action="/camps" method="POST">
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="basic-addon3">https://example.com/users/</span>
+            </div>
+            <input type="text" class="form-control" aria-label="Name of camp to add" name="name" placeholder="Name of Campground" required="required">
+        </div>
+        <input type="text" class="form-control" aria-label="Image URL of camp" name="image" placeholder="Image URL" required="required">
+        <button class="btn btn-primary btn-md">Add a Campground</button>
+    </form>
+</div>
+<a href="/">Home</a>
 <% include partials/footer %>
