@@ -22,11 +22,12 @@ app.get('/camps', (req, res) => {
 app.post('/camps', (req, res) => {
     console.log(req.body)
     const name = req.body.name;
-    const img = req.body.img
+    const img = req.body.image
+    console.log(req.body)
     const newCampground = {name: name, img: img};
 
     campgrounds.push(newCampground);
-
+    console.log(campgrounds)
     res.redirect('/camps');
 });
 app.get('/camps/new', (req, res) => {
