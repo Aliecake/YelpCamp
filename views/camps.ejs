@@ -1,18 +1,25 @@
 <% include partials/header %>
 <header class="jumbotron">
     <h1>Campgrounds</h1>
+        <div class="container-fluid">
+            <p>
+                <a class="btn btn-primary btn-md" href="/camps/new">Add a Campground</a>
+            </p>
+        </div>
 </header>
-<div class="container-fluid">
-    <p>
-        <a class="btn btn-primary btn-md" href="/camps/new">Add a Campground</a>
-    </p>
-    <% campgrounds.forEach((camp) => { %>
-        <div class="p-4 m-4">
-            <span class="campName"><%= camp['name'] %></span>
-            <span class="campImg"><img src="<%= camp['img'] %>"></span>
-        <div>
-    <% }) %>
+
+<div class="container">
+ <h5>Most Popular Campgrounds</h5>
+    <div class="row">
+        <% campgrounds.forEach((camp) => { %>
+            <div class="col-md-3 col-sm-6">
+            <figure class="figure img-thumbnail">
+                <img src="<%= camp['img'] %>" alt="Picture of camp <%=camp['name']%>" class="figure-img img-fluid rounded">
+                <figcaption class="figure-caption text-right"><h5><%=camp['name']%></h5></figcaption>
+            </figure>
+            </div>
+        <% }) %>
+    </div>
 </div>
 
-TM 2019
 <% include partials/footer %>
