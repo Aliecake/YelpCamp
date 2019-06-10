@@ -1,9 +1,11 @@
 <% include partials/header %>
+<header class="jumbotron">
+    <h1>Campgrounds</h1>
+</header>
 
-<h1>Campgrounds</h1>
 <a href="/camps/new">Add a Campground.</a>
 <% campgrounds.forEach((camp) => { %>
-    <div class ="campContainer">
+    <div class="p-4 m-4">
         <span class="campName"><%= camp['name'] %></span>
         <span class="campImg"><img src="<%= camp['img'] %>"></span>
     <div>
