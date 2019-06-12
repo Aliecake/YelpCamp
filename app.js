@@ -47,17 +47,13 @@ app.get('/camps', (req, res) => {
 });
 
 app.post('/camps', (req, res) => {
-    console.log(req.body)
-    const name = req.body.name;
-    const img = req.body.image
-    console.log(req.body)
-    const newCampground = {name: name, img: img};
-
-    //switch to mongo
-    campgrounds.push(newCampground);
-    console.log(campgrounds)
+    Campground.create({
+        name: req.body.name,
+        img: req.body.image
+    });
     res.redirect('/camps');
 });
+
 app.get('/camps/new', (req, res) => {
     res.render('newCamp.ejs');
 });
