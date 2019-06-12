@@ -5,16 +5,7 @@ const express = require('express'),
 
 app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.urlencoded({extended: true}));
-const campgrounds = [
-    {'name': 'fitch', 'img': 'https://farm6.staticflickr.com/5181/5641024448_04fefbb64d.jpg'},
-    {'name': 'rice moody','img': 'https://farm9.staticflickr.com/8422/7842069486_c61e4c6025.jpg'},
-    {'name': 'fitch', 'img': 'https://farm4.staticflickr.com/3273/2602356334_20fbb23543.jpg'},
-    {'name': 'rice moody','img': 'https://farm9.staticflickr.com/8422/7842069486_c61e4c6025.jpg'},
-    {'name': 'fitch', 'img': 'https://farm6.staticflickr.com/5181/5641024448_04fefbb64d.jpg'},
-    {'name': 'rice moody','img': 'https://farm9.staticflickr.com/8422/7842069486_c61e4c6025.jpg'},
-    {'name': 'fitch', 'img': 'https://farm9.staticflickr.com/8422/7842069486_c61e4c6025.jpg'},
-    {'name': 'rice moody','img': 'https://farm4.staticflickr.com/3273/2602356334_20fbb23543.jpg'}
-];
+
 
 mongoose.connect('mongodb://localhost/yelp_camp_db', {useNewUrlParser: true});
 
@@ -27,17 +18,17 @@ const campsSchema = new mongoose.Schema ({
 });
 const Campground = mongoose.model("Campground", campsSchema);
 
-Campground.create(
-    {
-        name: 'fitch', img: 'https://farm6.staticflickr.com/5181/5641024448_04fefbb64d.jpg'
-    }, (err, camp) =>{
-        if(err){
-            console.log(err);
-        } else {
-            console.log(camp, "added")
-        }
-    }
-);
+// Campground.create(
+//     {
+//         name: 'fitch', img: 'https://farm6.staticflickr.com/5181/5641024448_04fefbb64d.jpg'
+//     }, (err, camp) =>{
+//         if(err){
+//             console.log(err);
+//         } else {
+//             console.log(camp, "added")
+//         }
+//     }
+// );
 
 app.get('/', (req, res) => {
     res.render('landing');
@@ -45,8 +36,14 @@ app.get('/', (req, res) => {
 
 app.get('/camps', (req, res) => {
 
-    //switch to mongo
-    res.render('camps', {campgrounds: campgrounds});
+    //get all campgrounds from db
+    Campground.find({}, (err, campgrounds) => {
+        if(err) {
+            console.log("error populating camps from mongodb", err)
+        } else {
+            res.render('camps', {campgrounds: campgrounds})
+        }
+    });
 });
 
 app.post('/camps', (req, res) => {
