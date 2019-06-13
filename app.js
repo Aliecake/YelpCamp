@@ -28,7 +28,7 @@ app.get('/camps', (req, res) => {
         if(err) {
             console.log("error populating campgrounds from mongodb", err)
         } else {
-            res.render('camps', {campgrounds: campgrounds})
+            res.render('index', {campgrounds: campgrounds})
         }
     });
 });
@@ -49,7 +49,7 @@ app.post('/camps', (req, res) => {
 });
 
 app.get('/camps/new', (req, res) => {
-    res.render('newCamp.ejs');
+    res.render('new.ejs');
 });
 
 //get request for /camps/:id to show further info on individual camps
@@ -59,7 +59,7 @@ app.get('/camps/:id', (req, res) => {
         if(err) {
             console.log(err);
         } else {
-            res.render('info', {camp: camp})
+            res.render('show', {camp: camp})
         }
     });
 
