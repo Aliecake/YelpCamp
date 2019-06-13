@@ -23,7 +23,7 @@ app.get('/', (req, res) => {
     res.render('landing');
 });
 
-app.get('/camps', (req, res) => { 
+app.get('/camps', (req, res) => {
     Campground.find({}, (err, campgrounds) => {
         if(err) {
             console.log("error populating campgrounds from mongodb", err)
@@ -65,7 +65,15 @@ app.get('/camps/new', (req, res) => {
 
 //get request for /camps/:id to show further info on individual camps
 app.get('/camps/:id', (req, res) => {
-    res.send("This will be info about requested camp")
+    const id = req.params.id;
+    Campground.findById(id, (err, camp) => {
+        if(err) {
+            console.log(err);
+        } else {
+            res.render('info', {camp: camp})
+        }
+    });
+
 });
 
 app.get('*', (req, res) => {
