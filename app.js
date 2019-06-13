@@ -33,22 +33,11 @@ app.get('/camps', (req, res) => {
     });
 });
 
-// Campground.create({
-//     name: 'White Mountains',
-//     img: 'https://farm8.staticflickr.com/7285/8737935921_47343b7a5d.jpg',
-//     desc: 'Lots of great hiking and fishing. Potable water and grills available. It gets cold at night, bring enough firewood or warm sleeping bags.'
-// }, (err, camp)=> {
-//     if(err){
-//         console.log("error")
-//     } else {
-//         console.log("New one added", camp)
-//     }
-// })
-
 app.post('/camps', (req, res) => {
     Campground.create({
         name: req.body.name,
-        img: req.body.image
+        img: req.body.image,
+        desc: req.body.description
     }, (err, camp) => {
         if(err) {
             console.log("Error posting to DB", err)
