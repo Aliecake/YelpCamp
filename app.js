@@ -1,8 +1,11 @@
 const express = require('express'),
     app = express(),
     bodyParser = require('body-parser'),
-    mongoose = require('mongoose');
-    Campground = require('./models/campgrounds.js')
+    mongoose = require('mongoose'),
+    Campground = require('./models/campgrounds'),
+    SeedDB = require('./seeds');
+
+SeedDB();
 
 app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.urlencoded({extended: true}));
