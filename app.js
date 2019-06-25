@@ -5,8 +5,6 @@ const express = require('express'),
     Campground = require('./models/campgrounds'),
     SeedDB = require('./seeds');
 
-SeedDB();
-
 app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.urlencoded({extended: true}));
 
@@ -14,6 +12,8 @@ mongoose.connect('mongodb://localhost/yelp_camp_db', {useNewUrlParser: true});
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.set('view engine', 'ejs');
+
+SeedDB();
 
 app.get('/', (req, res) => {
     res.render('landing');
@@ -25,7 +25,7 @@ app.get('/camps', (req, res) => {
         if(err) {
             console.log("error populating campgrounds from mongodb", err);
         } else {
-            res.render('index', {campgrounds: campgrounds});
+            res.render('camps/index', {campgrounds: campgrounds});
         }
     });
 });
@@ -48,7 +48,7 @@ app.post('/camps', (req, res) => {
 
 //NEW - Show form
 app.get('/camps/new', (req, res) => {
-    res.render('new.ejs');
+    res.render('camps/new');
 });
 
 //SHOW further info on individual camps
@@ -58,10 +58,16 @@ app.get('/camps/:id', (req, res) => {
         if(err) {
             console.log(err);
         } else {
-            res.render('show', {camp: camp});
+            res.render('camps/show', {camp: camp});
         }
     });
 
+});
+
+//====COMMENTS ROUTE====
+
+app.get('/camps/:id/comments/new', (req, res) => {
+    res.render('comments/new');
 });
 
 app.get('*', (req, res) => {
