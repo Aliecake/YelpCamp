@@ -6,4 +6,8 @@
 <%= camp['desc'] %>
 </p>
 
+<% camp['comments'].forEach((comment) => { %>
+    <p> <%= comment.author %> : <%= comment.text %> </p>
+    <% console.log(comment)%>
+<% }); %>
 <% include partials/footer %>

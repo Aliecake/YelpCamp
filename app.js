@@ -19,16 +19,18 @@ app.get('/', (req, res) => {
     res.render('landing');
 });
 
+//INDEX - Show all
 app.get('/camps', (req, res) => {
     Campground.find({}, (err, campgrounds) => {
         if(err) {
-            console.log("error populating campgrounds from mongodb", err)
+            console.log("error populating campgrounds from mongodb", err);
         } else {
-            res.render('index', {campgrounds: campgrounds})
+            res.render('index', {campgrounds: campgrounds});
         }
     });
 });
 
+//CREATE - Add a new camp
 app.post('/camps', (req, res) => {
     Campground.create({
         name: req.body.name,
@@ -36,33 +38,34 @@ app.post('/camps', (req, res) => {
         desc: req.body.description
     }, (err, camp) => {
         if(err) {
-            console.log("Error posting to DB", err)
+            console.log("Error posting to DB", err);
         } else {
-            console.log("Added to DB", camp)
+            console.log("Added to DB", camp);
         }
-    })
+    });
     res.redirect('/camps');
 });
 
+//NEW - Show form
 app.get('/camps/new', (req, res) => {
     res.render('new.ejs');
 });
 
-//get request for /camps/:id to show further info on individual camps
+//SHOW further info on individual camps
 app.get('/camps/:id', (req, res) => {
     const id = req.params.id;
-    Campground.findById(id, (err, camp) => {
+    Campground.findById(id).populate('comments').exec((err, camp) => {
         if(err) {
             console.log(err);
         } else {
-            res.render('show', {camp: camp})
+            res.render('show', {camp: camp});
         }
     });
 
 });
 
 app.get('*', (req, res) => {
-    res.send('404 not found, press back')
+    res.send('404 not found, press back');
 });
 app.listen(3000, () => {
     console.log('listening on port 3000');

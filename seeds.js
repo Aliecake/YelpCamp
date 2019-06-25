@@ -1,6 +1,7 @@
 const mongoose = require('mongoose'),
     Campground = require('./models/campgrounds'),
     Comment = require('./models/comments');
+    
 const data = [
     {
         name: 'Clouds Rest',
@@ -22,13 +23,13 @@ const data = [
 seedDB = () => {
     Campground.deleteMany({}, (err) => {
         if(err){
-            console.log('error removing camps', err)
+            console.log('error removing camps', err);
         }
          //add a few campgrounds
         data.forEach((seed) => {
             Campground.create(seed, (err, campground)=> {
                 if(err){
-                    console.log('error creating seed', err)
+                    console.log('error creating seed', err);
                 } else {
                       //add a few comments
                       Comment.create(
@@ -37,18 +38,18 @@ seedDB = () => {
                             author: 'Homer'
                       }, (err, comment) => {
                           if(err) {
-                              console.log('Error creating comments', err)
+                              console.log('Error creating comments', err);
                           } else {
                             campground.comments.push(comment);
                             campground.save();
                             console.log('Created new comment');
                           }
                       });
-                    console.log('added camp')
+                    console.log('added camp');
                 }
             });
         });
     });
-}
+};
 
 module.exports = seedDB;
