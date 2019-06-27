@@ -64,11 +64,21 @@ app.get('/camps/:id', (req, res) => {
 
 });
 
-//====COMMENTS ROUTE====
+//====COMMENTS ROUTE====get
 
 app.get('/camps/:id/comments/new', (req, res) => {
-    res.render('comments/new');
+    const id = req.params.id;
+    Campground.findById(id, (err, camp) => {
+        if(err) {
+            res.send('Error finding that camp, press back & try again');
+        } else {
+            res.render('comments/new', {camp: camp});
+        }
+    });
 });
+
+//create post
+//camps/:id/comments
 
 app.get('*', (req, res) => {
     res.send('404 not found, press back');
