@@ -70,7 +70,7 @@ app.get('/camps/:id/comments/new', (req, res) => {
     const id = req.params.id;
     Campground.findById(id, (err, camp) => {
         if(err) {
-            res.send('Error finding that camp, press back & try again');
+            res.send('Error finding that camp, press back');
         } else {
             res.render('comments/new', {camp: camp});
         }
@@ -79,6 +79,30 @@ app.get('/camps/:id/comments/new', (req, res) => {
 
 //create post
 //camps/:id/comments
+app.post('/camps/:id/comments', (req, res) => {
+    console.log(req.body);
+    const id = req.params.id;
+    Campground.findById(id, (err, camp) => {
+        if(err){
+            console.log(err);
+        } else {
+            res.redirect(`/camps/${id}`);
+        }
+    });
+    //create new comment
+    //connect comment to campground
+    // Campground.create({
+    //     name: req.body.name,
+    //     img: req.body.image,
+    //     desc: req.body.description
+    // }, (err, camp) => {
+    //     if(err) {
+    //         console.log("Error posting to DB", err);
+    //     } else {
+    //         console.log("Added to DB", camp);
+    //     }
+    // });
+});
 
 app.get('*', (req, res) => {
     res.send('404 not found, press back');

@@ -32,19 +32,19 @@ seedDB = () => {
                     console.log('error creating seed', err);
                 } else {
                       //add a few comments
-                      Comment.create(
-                          {
-                            text: 'This place was great, but I wish there was wifi',
-                            author: 'Homer'
-                      }, (err, comment) => {
-                          if(err) {
-                              console.log('Error creating comments', err);
-                          } else {
-                            campground.comments.push(comment);
-                            campground.save();
-                            console.log('Created new comment');
-                          }
-                      });
+                    //   Comment.create(
+                    //       {
+                    //         text: 'This place was great, but I wish there was wifi',
+                    //         author: 'Homer'
+                    //   }, (err, comment) => {
+                    //       if(err) {
+                    //           console.log('Error creating comments', err);
+                    //       } else {
+                    //         campground.comments.push(comment);
+                    //         campground.save();
+                    //         console.log('Created new comment');
+                    //       }
+                    //   });
                     console.log('added camp');
                 }
             });

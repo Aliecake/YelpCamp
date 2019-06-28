@@ -7,8 +7,8 @@
 </header>
 <div class="p-3 form-group col-md-6">
     <form action="/camps/<%= camp['id'] %>/comments" method="POST">
-        <input type="text" class="form-control mb-3" aria-label="Input Your Name" name="name" placeholder="Your Name" required="required">
-        <textarea class="form-control mb-3" rows="6" aria-label="Input Comment about Camp" name="description" required="required"></textarea>
+        <input type="text" class="form-control mb-3" aria-label="Input Your Name" name="comment[author]" placeholder="Your Name" required="required">
+        <textarea class="form-control mb-3" rows="6" aria-label="Input Comment about Camp" name="comment[text]" required="required"></textarea>
         <button class="btn btn-primary btn-md">Add a Campground</button>
     </form>
 </div>
