@@ -3,6 +3,7 @@ const express = require('express'),
     bodyParser = require('body-parser'),
     mongoose = require('mongoose'),
     Campground = require('./models/campgrounds'),
+    Comment = require('./models/comments'),
     SeedDB = require('./seeds');
 
 app.use(express.static(__dirname + '/public'));
@@ -77,31 +78,27 @@ app.get('/camps/:id/comments/new', (req, res) => {
     });
 });
 
-//create post
-//camps/:id/comments
+//create comment POST route
 app.post('/camps/:id/comments', (req, res) => {
-    console.log(req.body);
     const id = req.params.id;
     Campground.findById(id, (err, camp) => {
         if(err){
             console.log(err);
         } else {
+            Comment.create({
+                text: req.body.comment.text,
+                author: req.body.comment.author,
+            }, (err, camp) => {
+                if(err) {
+                    console.log("Error posting comment to DB", err);
+                } else {
+                    console.log("Added comment to DB", camp);
+                }
+            });
+            //connect comment to campground
             res.redirect(`/camps/${id}`);
         }
     });
-    //create new comment
-    //connect comment to campground
-    // Campground.create({
-    //     name: req.body.name,
-    //     img: req.body.image,
-    //     desc: req.body.description
-    // }, (err, camp) => {
-    //     if(err) {
-    //         console.log("Error posting to DB", err);
-    //     } else {
-    //         console.log("Added to DB", camp);
-    //     }
-    // });
 });
 
 app.get('*', (req, res) => {
