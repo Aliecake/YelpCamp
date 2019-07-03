@@ -85,18 +85,16 @@ app.post('/camps/:id/comments', (req, res) => {
         if(err){
             console.log(err);
         } else {
-            Comment.create({
-                text: req.body.comment.text,
-                author: req.body.comment.author,
-            }, (err, camp) => {
+            Comment.create(req.body.comment, (err, comment) => {
                 if(err) {
                     console.log("Error posting comment to DB", err);
                 } else {
-                    console.log("Added comment to DB", camp);
+                    //connect camp to comment
+                    camp.comments.push(comment);
+                    camp.save();
+                    res.redirect(`/camps/${id}`);
                 }
             });
-            //connect comment to campground
-            res.redirect(`/camps/${id}`);
         }
     });
 });
