@@ -1,16 +1,25 @@
 <% include ../partials/header %>
 
-<h2><%= camp['name'] %></h2>
-<img src="<%= camp['img'] %>">
-<p>
-<%= camp['desc'] %>
-</p>
-<p>
-    <a href="/camps/<%= camp['_id']%>/comments/new" class="btn btn-primary btn-md">Add a comment</a>
-</p>
-
-<% camp['comments'].forEach((comment) => { %>
-    <p> <%= comment.author %> : <%= comment.text %> </p>
-    <% console.log(comment)%>
-<% }); %>
+<div class="container">
+    <div class="row d-flex">
+        <div class="col-3">
+        menu here
+        </div>
+        <div class="col-9">
+            <h2><%= camp['name'] %></h2>
+            <img src="<%= camp['img'] %>">
+            <p>
+            <%= camp['desc'] %>
+            </p>
+            <p>
+                <a href="/camps/<%= camp['_id']%>/comments/new" class="btn btn-primary btn-md">Add a comment</a>
+            </p>
+            <!--make comments look nicer -->
+            <% camp['comments'].forEach((comment) => { %>
+                <p> <%= comment.author %> : <%= comment.text %> </p>
+                <% console.log(comment)%>
+            <% }); %>
+        </div>
+    </div>
+</div>
 <% include ../partials/footer %>
