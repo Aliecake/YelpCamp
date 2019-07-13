@@ -3,11 +3,17 @@
 <div class="container">
     <div class="row d-flex">
         <div class="col-3">
-        menu here
+            <p class="lead">Yelp Camp</p>
+            <div class="list-group">
+                <li class="list-group-item active">Info</li>
+                <li class="list-group-item">contact</li>
+                <li class="list-group-item">email</li>
+            </div>
+            <!--map-->
         </div>
         <div class="col-9">
             <h2><%= camp['name'] %></h2>
-            <img src="<%= camp['img'] %>">
+            <img class="img-fluid" src="<%= camp['img'] %>">
             <p>
             <%= camp['desc'] %>
             </p>
