@@ -12,18 +12,22 @@
             <!--map-->
         </div>
         <div class="col-9">
-            <h2><%= camp['name'] %></h2>
-            <img class="img-fluid" src="<%= camp['img'] %>">
-            <p>
-            <%= camp['desc'] %>
-            </p>
+            <div class="card">
+                <figure class="figure">
+                    <img class="figure-img card-img-top img-fluid rounded" src="<%= camp['img'] %>">
+                    <figcaption class="figure-caption text-right"><h4><a href="/"><%= camp['name'] %></a></h4> $9.00/night</figcaption>
+                </figure>
+                <div class="card-body">
+                    <p class="card-text">
+                    <%= camp['desc'] %>
+                    </p>
+                </div>
+            </div>
             <p>
                 <a href="/camps/<%= camp['_id']%>/comments/new" class="btn btn-primary btn-md">Add a comment</a>
             </p>
-            <!--make comments look nicer -->
             <% camp['comments'].forEach((comment) => { %>
                 <p> <%= comment.author %> : <%= comment.text %> </p>
-                <% console.log(comment)%>
             <% }); %>
         </div>
     </div>
