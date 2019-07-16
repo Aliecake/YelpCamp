@@ -1,6 +1,6 @@
 <% include ../partials/header %>
 
-<div class="container">
+<div class="container mt-3">
     <div class="row d-flex">
         <div class="col-3">
             <p class="lead">Yelp Camp</p>
@@ -12,7 +12,7 @@
             <!--map-->
         </div>
         <div class="col-9">
-            <div class="card">
+            <div class="card mb-1">
                 <figure class="figure">
                     <img class="figure-img card-img-top img-fluid rounded" src="<%= camp['img'] %>">
                     <figcaption class="figure-caption text-right"><h4><a href="/"><%= camp['name'] %></a></h4> $9.00/night</figcaption>
@@ -23,12 +23,16 @@
                     </p>
                 </div>
             </div>
-            <p>
-                <a href="/camps/<%= camp['_id']%>/comments/new" class="btn btn-primary btn-md">Add a comment</a>
-            </p>
-            <% camp['comments'].forEach((comment) => { %>
-                <p> <%= comment.author %> : <%= comment.text %> </p>
-            <% }); %>
+            <div class="card">
+                <div class="text-right">
+                    <p>
+                        <a href="/camps/<%= camp['_id']%>/comments/new" class="btn btn-primary btn-md">Add a comment</a>
+                    </p>
+                </div>
+                <% camp['comments'].forEach((comment) => { %>
+                    <p> <%= comment.author %> : <%= comment.text %> </p>
+                <% }); %>
+            </div>
         </div>
     </div>
 </div>
