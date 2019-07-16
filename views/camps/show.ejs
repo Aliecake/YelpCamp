@@ -25,17 +25,18 @@
             </div>
             <div class="card bg-light">
                 <div class="text-right">
-                        <a href="/camps/<%= camp['_id']%>/comments/new" class="btn btn-primary btn-md">Add a comment</a>
+                        <a href="/camps/<%= camp['_id']%>/comments/new" class="btn btn-primary btn-sm m-1">Add a comment</a>
                 </div>
                 <% camp['comments'].forEach((comment) => { %>
                     <div class="row">
                         <div class="col-md-12">
                             <%= comment.author %>
+                            <!-- rating here -->
+                            <span class="float-md-right">
+                                <%= comment.created.toDateString() %>
+                            </span>
                             <p>
                                 <%= comment.text %>
-                            </p>
-                            <p>
-                                <%= comment %>
                             </p>
                         </div>
                     </div>
