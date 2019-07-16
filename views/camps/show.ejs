@@ -13,9 +13,16 @@
         </div>
         <div class="col-9">
             <div class="card mb-1">
-                <figure class="figure">
+                <figure class="figure m-1">
                     <img class="figure-img card-img-top img-fluid rounded" src="<%= camp['img'] %>">
-                    <figcaption class="figure-caption text-right"><h4><a href="/"><%= camp['name'] %></a></h4> $9.00/night</figcaption>
+                    <figcaption class="figure-caption">
+                        <span class="font-weight-bold text-uppercase lead">
+                            <a href="/"><%= camp['name'] %></a>
+                            </span>
+                        <span class="float-right">
+                            $9.00/night
+                        </span>
+                    </figcaption>
                 </figure>
                 <div class="card-body">
                     <p class="card-text">
@@ -28,9 +35,11 @@
                         <a href="/camps/<%= camp['_id']%>/comments/new" class="btn btn-primary btn-sm m-1">Add a comment</a>
                 </div>
                 <% camp['comments'].forEach((comment) => { %>
-                    <div class="row">
+                    <div class="row m-1">
                         <div class="col-md-12">
-                            <%= comment.author %>
+                            <span class="font-weight-bold">
+                                <%= comment.author %>
+                            </span>
                             <!-- rating here -->
                             <span class="float-md-right">
                                 <%= comment.created.toDateString() %>
