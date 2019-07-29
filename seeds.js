@@ -35,7 +35,8 @@ seedDB = () => {
                     //   Comment.create(
                     //       {
                     //         text: 'This place was great, but I wish there was wifi',
-                    //         author: 'Homer'
+                    //         author: 'Homer',
+                    //         rating: 4
                     //   }, (err, comment) => {
                     //       if(err) {
                     //           console.log('Error creating comments', err);
