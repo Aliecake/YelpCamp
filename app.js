@@ -117,7 +117,20 @@ app.post('/camps/:id/comments', (req, res) => {
 
 ///AUTH ROUTES - WILL BE MOVED//
 app.get('/register', (req, res) => {
-    res.send('this is register route');
+    res.render('register');
+});
+///Sign Up logic//
+app.post('/register', (req, res) => {
+    User.register(new User({username: req.body.username}), req.body.password, (err, user) => {
+        if(err) {
+            console.log(err);
+            res.redirect('/register');
+        } else {
+            passport.authenticate('local')(req, res, () => {
+                res.redirect('/');
+            });
+        }
+    });
 });
 
 app.get('/login', (req, res) => {
