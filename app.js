@@ -8,6 +8,7 @@ const express = require('express'),
     passportLocalMongoose = require('passport-local-mongoose'),
     Campground = require('./models/campgrounds'),
     Comment = require('./models/comments'),
+    User = require('./models/users'),
     SeedDB = require('./seeds');
 
 app.use(bodyParser.urlencoded({extended: true}));
@@ -17,6 +18,19 @@ app.use(express.static(__dirname + '/public'));
 mongoose.connect('mongodb://localhost/yelp_camp_db', {useNewUrlParser: true});
 
 SeedDB();
+
+//PASSPORT CONFIG
+app.use(session({
+    secret: 'Chompy the lizard approves',
+    resave: false,
+    saveUninitialized: false,
+}));
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(User.createStrategy());
+
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
 
 app.get('/', (req, res) => {
     res.render('landing');
@@ -101,9 +115,24 @@ app.post('/camps/:id/comments', (req, res) => {
     });
 });
 
+///AUTH ROUTES - WILL BE MOVED//
+app.get('/register', (req, res) => {
+    res.send('this is register route');
+});
+
+app.get('/login', (req, res) => {
+    res.send('this is login route');
+});
+
+app.get('/lougout', (req, res) => {
+    res.send('this is logout route');
+});
+
+//404 route - goes last
 app.get('*', (req, res) => {
     res.send('404 not found, press back');
 });
+
 app.listen(3000, () => {
     console.log('listening on port 3000');
 });
