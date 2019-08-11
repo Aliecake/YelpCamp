@@ -7,5 +7,10 @@ module.exports = {
         filename: 'bundle.js',
         publicPath: './public/dist/',
     },
-    mode: 'development'
+    mode: 'development',
+    devServer: {
+        proxy: {
+            '/': 'http://localhost:3000'
+        }
+    }
 };
