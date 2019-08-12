@@ -1,1 +1,3 @@
-console.log('not connected to back end app.js');
+import '../../stylesheets/app.css';
+import 'bootstrap';
+console.log('bundle connected - BOOM SHAKALAKA');

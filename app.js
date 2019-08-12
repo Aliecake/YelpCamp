@@ -14,6 +14,7 @@ const express = require('express'),
 app.use(bodyParser.urlencoded({extended: true}));
 app.set('view engine', 'ejs');
 app.use(express.static(__dirname + '/public'));
+app.use('*/dist', express.static(__dirname + '/public/dist'));
 
 mongoose.connect('mongodb://localhost/yelp_camp_db', {useNewUrlParser: true});
 
