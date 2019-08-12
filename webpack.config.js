@@ -1,4 +1,5 @@
 const path = require('path');
+const HtmlWebpackPLugin = require('html-webpack-plugin');
 
 module.exports = {
     entry: './public/javascripts/src/app.js',
@@ -10,7 +11,18 @@ module.exports = {
     mode: 'development',
     devServer: {
         proxy: {
-            '/': 'http://localhost:3000'
+            '/': 'http://[::1]:3000'
         }
-    }
+    },
+    module: {
+        rules: [
+            {
+            test: /\.css$/,
+            use: ['style-loader', 'css-loader']
+        },
+    ]
+    },
+    plugins: [
+        new HtmlWebpackPLugin()
+    ]
 };
