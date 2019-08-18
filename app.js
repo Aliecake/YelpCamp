@@ -84,7 +84,7 @@ app.get('/camps/:id', (req, res) => {
 
 //====COMMENTS ROUTE====get
 
-app.get('/camps/:id/comments/new', (req, res) => {
+app.get('/camps/:id/comments/new', loginCheck, (req, res) => {
     const id = req.params.id;
     Campground.findById(id, (err, camp) => {
         if(err) {
@@ -124,11 +124,11 @@ app.get('/register', (req, res) => {
 app.post('/register', (req, res) => {
     User.register(new User({username: req.body.username}), req.body.password, (err, user) => {
         if(err) {
-            res.send(`There was an error registering you, press back and try again`, err);
+            res.send(`There was an error, press back and try again: ${err.toString()}`);
             res.redirect('/register');
         } else {
             passport.authenticate('local')(req, res, () => {
-                res.redirect('/');
+                res.redirect('/camps');
             });
         }
     });
@@ -139,12 +139,12 @@ app.get('/login', (req, res) => {
 });
 
 app.post('/login', passport.authenticate('local', {
-    successRedirect: '/',
+    successRedirect: '/camps',
     failureRedirect: '/login'
 }), (req, res) => {
     //callback
-    console.log('req body', req.body);
 });
+
 //=======LOGOUT======//
 app.get('/lougout', (req, res) => {
     req.logout();
@@ -155,6 +155,14 @@ app.get('/lougout', (req, res) => {
 app.get('*', (req, res) => {
     res.send('404 not found, press back');
 });
+
+function loginCheck(req, res, next){
+    if(req.isAuthenticated()){
+        return next();
+    } else {
+        res.redirect('/login');
+    }
+}
 
 app.listen(3000, () => {
     console.log('listening on port 3000');
