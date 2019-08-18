@@ -1,10 +1,6 @@
 # Yelp Camp
 > Find a campground, or add your own.
 
-[![NPM Version][npm-image]][npm-url]
-[![Build Status][travis-image]][travis-url]
-[![Downloads Stats][npm-downloads]][npm-url]
-
 Allows users to create, read, update, or delete Campgrounds and comments on it.
 
 Capstone project for Colt Steele's Web Developer Bootcamp (<https://www.udemy.com/the-web-developer-bootcamp/>)
