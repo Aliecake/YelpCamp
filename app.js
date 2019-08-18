@@ -120,11 +120,11 @@ app.post('/camps/:id/comments', (req, res) => {
 app.get('/register', (req, res) => {
     res.render('register');
 });
-///Sign Up logic//
+///====SIGN UP======//
 app.post('/register', (req, res) => {
     User.register(new User({username: req.body.username}), req.body.password, (err, user) => {
         if(err) {
-            console.log(err);
+            res.send(`There was an error registering you, press back and try again`, err);
             res.redirect('/register');
         } else {
             passport.authenticate('local')(req, res, () => {
@@ -133,13 +133,22 @@ app.post('/register', (req, res) => {
         }
     });
 });
-
+//=====LOGIN=====//
 app.get('/login', (req, res) => {
-    res.send('this is login route');
+    res.render('login');
 });
 
+app.post('/login', passport.authenticate('local', {
+    successRedirect: '/',
+    failureRedirect: '/login'
+}), (req, res) => {
+    //callback
+    console.log('req body', req.body);
+});
+//=======LOGOUT======//
 app.get('/lougout', (req, res) => {
-    res.send('this is logout route');
+    req.logout();
+    res.redirect('/');
 });
 
 //404 route - goes last
