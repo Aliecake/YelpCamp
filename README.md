@@ -26,8 +26,6 @@ npm run build
 
 Distributed under the ISC license. See ``LICENSE`` for more information.
 
-[https://github.com/yourname/github-link](https://github.com/dbader/)
-
 ## Contributing
 
 1. Fork it (<https://github.com/Aliecake/YelpCamp>)
