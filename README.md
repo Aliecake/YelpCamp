@@ -14,8 +14,11 @@ At the current time, this is run with local MongoDB instance. Instructions to in
 ```sh
 npm i
 npm run start
-npm run build
+npm run serve
 ```
+Project will run on port 3000
+
+
 
 ## Release History
 
