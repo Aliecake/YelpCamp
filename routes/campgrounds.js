@@ -18,7 +18,11 @@ router.post('/', loginCheck, (req, res) => {
     Campground.create({
         name: req.body.name,
         img: req.body.image,
-        desc: req.body.description
+        desc: req.body.description,
+        author: {
+            username: req.user.username,
+            id: req.user._id
+        }
     }, (err, camp) => {
         if(err) {
             console.log("Error posting to DB", err);
