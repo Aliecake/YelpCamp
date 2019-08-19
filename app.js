@@ -6,10 +6,11 @@ const express = require('express'),
     passport = require('passport'),
     LocalStrategy = require('passport-local'),
     passportLocalMongoose = require('passport-local-mongoose'),
-    Campground = require('./models/campgrounds'),
-    Comment = require('./models/comments'),
+    // Campground = require('./models/campgrounds'),
+    // Comment = require('./models/comments'),
     User = require('./models/users'),
-    SeedDB = require('./seeds');
+    SeedDB = require('./seeds'),
+    //requiring routes
     campgroundRoutes = require('./routes/campgrounds'),
     commentRoutes = require('./routes/comments'),
     authRoutes = require('./routes/index');
@@ -21,7 +22,7 @@ app.use('*/dist', express.static(__dirname + '/public/dist'));
 
 mongoose.connect('mongodb://localhost/yelp_camp_db', {useNewUrlParser: true});
 
-SeedDB();
+//SeedDB();
 
 //PASSPORT CONFIG
 app.use(session({
