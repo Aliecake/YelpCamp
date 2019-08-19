@@ -13,7 +13,8 @@ router.get('/', (req, res) => {
 });
 
 //CREATE - Add a new camp
-router.post('/', (req, res) => {
+//want to save author username and ID
+router.post('/', loginCheck, (req, res) => {
     Campground.create({
         name: req.body.name,
         img: req.body.image,
@@ -29,7 +30,7 @@ router.post('/', (req, res) => {
 });
 
 //NEW - Show form
-router.get('/new', (req, res) => {
+router.get('/new', loginCheck, (req, res) => {
     res.render('camps/new');
 });
 
@@ -47,5 +48,18 @@ router.get('/:id', (req, res) => {
     });
 
 });
+
+
+function loginCheck(req, res, next){
+
+    if(req.isAuthenticated()){
+        return next();
+    } else {
+        const loginReq = `ERROR: You must be logged in to do that!.`;
+        res.render('login', {
+            loginReq: loginReq
+        });
+    }
+}
 
 module.exports = router;

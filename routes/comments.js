@@ -47,7 +47,7 @@ function loginCheck(req, res, next){
     if(req.isAuthenticated()){
         return next();
     } else {
-        const loginReq = `ERROR: You must be logged in to post a comment.`;
+        const loginReq = `ERROR: You must be logged in to do that!.`;
         res.render('login', {
             loginReq: loginReq
         });
