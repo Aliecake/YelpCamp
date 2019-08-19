@@ -18,3 +18,18 @@
 .form {
     margin-left: 100px;
 }
+.login {
+    text-align: center;
+    font-weight: 900;
+}
+.warning {
+    margin: 0 auto;
+    margin-top: 30px;
+    padding: 20px;
+    max-width: 80%;
+    border: 1px solid red;
+    text-align: center;
+    font-weight: 900;
+    color: #000000;
+    background: $warning;
+}

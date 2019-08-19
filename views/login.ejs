@@ -1,5 +1,11 @@
 <% include partials/header %>
-
+<% if(loginReq && loginReq === `ERROR: You must be logged in to post a comment.`){ %>
+    <div class="warning"><%= loginReq %> Please <a href="/login">Login</a> or <a href="/register">Register</a></div>
+<% } else if (loginReq){ %>
+    <div class="login">Welcome!</div>
+<%} else { %>
+    <!-- Unlikely to ever fire catch all--><div class="login">Thanks for logging in!</div>
+<%}%>
 <div class="forms">
     <h2>Log In</h2>
     <div class="form">

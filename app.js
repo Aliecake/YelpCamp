@@ -138,7 +138,6 @@ app.post('/register', (req, res) => {
             res.render('/register');
         } else {
             passport.authenticate('local')(req, res, () => {
-                //redirect buddy, express deprecated res.redirect(url, status): Use res.redirect(status, url) instead
                 res.redirect('camps');
             });
         }
@@ -146,7 +145,8 @@ app.post('/register', (req, res) => {
 });
 //=====LOGIN=====//
 app.get('/login', (req, res) => {
-    res.render('login', {currentUser: req.user});
+    const loginReq = `Welcome!`;
+    res.render('login', {currentUser: req.user, loginReq: loginReq});
 });
 
 app.post('/login', passport.authenticate('local', {
@@ -172,8 +172,11 @@ function loginCheck(req, res, next){
     if(req.isAuthenticated()){
         return next();
     } else {
-        const loginReq = `You must be logged in to post a comment. Please <a href="/login">Login</a> or <a href="/register"> Register</a>.`;
-        res.render('login', {currentUser: req.user});
+        const loginReq = `ERROR: You must be logged in to post a comment.`;
+        res.render('login', {
+            currentUser: req.user,
+            loginReq: loginReq
+        });
     }
 }
 
