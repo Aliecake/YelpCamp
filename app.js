@@ -61,12 +61,14 @@ app.post('/camps', (req, res) => {
             console.log("Added to DB", camp);
         }
     });
-    res.redirect('/camps', {currentUser: req.user});
+    res.redirect('/camps');
 });
 
 //NEW - Show form
 app.get('/camps/new', (req, res) => {
-    res.render('camps/new');
+    res.render('camps/new', {
+        currentUser: req.user
+    });
 });
 
 //SHOW further info on individual camps
@@ -76,7 +78,10 @@ app.get('/camps/:id', (req, res) => {
         if(err) {
             console.log(err);
         } else {
-            res.render('camps/show', {camp: camp, currentUser: req.user});
+            res.status(200).render('camps/show', {
+                camp: camp,
+                currentUser: req.user
+            });
         }
     });
 
@@ -90,7 +95,10 @@ app.get('/camps/:id/comments/new', loginCheck, (req, res) => {
         if(err) {
             res.send('Error finding that camp, press back');
         } else {
-            res.render('comments/new', {camp: camp, currentUser: req.user});
+            res.render('comments/new', {
+                camp: camp,
+                currentUser: req.user
+        });
         }
     });
 });
@@ -109,7 +117,7 @@ app.post('/camps/:id/comments', loginCheck, (req, res) => {
                     //connect camp to comment
                     camp.comments.push(comment);
                     camp.save();
-                    res.redirect(`/camps/${id}`, {currentUser: req.user});
+                    res.redirect(`/camps/${id}`);
                 }
             });
         }
@@ -118,17 +126,22 @@ app.post('/camps/:id/comments', loginCheck, (req, res) => {
 
 ///AUTH ROUTES - WILL BE MOVED//
 app.get('/register', (req, res) => {
-    res.render('register');
+    res.render('register', {
+        currentUser: req.user
+    });
 });
 ///====SIGN UP======//
 app.post('/register', (req, res) => {
     User.register(new User({username: req.body.username}), req.body.password, (err, user) => {
         if(err) {
             res.send(`There was an error, press back and try again: ${err.toString()}`);
-            res.redirect('/register');
+            res.render('/register');
         } else {
             passport.authenticate('local')(req, res, () => {
-                res.redirect('/camps', {currentUser: req.user});
+                //redirect buddy, express deprecated res.redirect(url, status): Use res.redirect(status, url) instead
+                res.redirect('camps', {
+                    currentUser: req.user
+                });
             });
         }
     });
@@ -146,9 +159,9 @@ app.post('/login', passport.authenticate('local', {
 });
 
 //=======LOGOUT======//
-app.get('/lougout', (req, res) => {
+app.get('/logout', (req, res) => {
     req.logout();
-    res.redirect('/', {currentUser: req.user});
+    res.redirect('/');
 });
 
 //404 route - goes last
@@ -162,7 +175,7 @@ function loginCheck(req, res, next){
         return next();
     } else {
         const loginReq = `You must be logged in to post a comment. Please <a href="/login">Login</a> or <a href="/register"> Register</a>.`;
-        res.redirect('/login', {currentUser: req.user});
+        res.render('login', {currentUser: req.user});
     }
 }
 
