@@ -28,8 +28,12 @@ router.post('/', loginCheck, (req, res) => {
                 if(err) {
                     console.log("Error posting comment to DB", err);
                 } else {
-                    //connect camp to comment
+                    //add username and id to comment
+                    comment.author.id = req.user._id;
+                    comment.author.username = req.user.username;
+                    comment.save();
                     camp.comments.push(comment);
+                    console.log(comment)
                     camp.save();
                     res.redirect(`/camps/${id}`);
                 }
