@@ -34,7 +34,7 @@ passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
 app.get('/', (req, res) => {
-    res.render('landing');
+    res.render('landing', {currentUser: req.user});
 });
 
 //INDEX - Show all
@@ -43,7 +43,7 @@ app.get('/camps', (req, res) => {
         if(err) {
             console.log("error populating campgrounds from mongodb", err);
         } else {
-            res.render('camps/index', {campgrounds: campgrounds});
+            res.render('camps/index', {campgrounds: campgrounds, currentUser: req.user});
         }
     });
 });
@@ -61,7 +61,7 @@ app.post('/camps', (req, res) => {
             console.log("Added to DB", camp);
         }
     });
-    res.redirect('/camps');
+    res.redirect('/camps', {currentUser: req.user});
 });
 
 //NEW - Show form
@@ -76,7 +76,7 @@ app.get('/camps/:id', (req, res) => {
         if(err) {
             console.log(err);
         } else {
-            res.render('camps/show', {camp: camp});
+            res.render('camps/show', {camp: camp, currentUser: req.user});
         }
     });
 
@@ -90,13 +90,13 @@ app.get('/camps/:id/comments/new', loginCheck, (req, res) => {
         if(err) {
             res.send('Error finding that camp, press back');
         } else {
-            res.render('comments/new', {camp: camp});
+            res.render('comments/new', {camp: camp, currentUser: req.user});
         }
     });
 });
 
 //create comment POST route
-app.post('/camps/:id/comments', (req, res) => {
+app.post('/camps/:id/comments', loginCheck, (req, res) => {
     const id = req.params.id;
     Campground.findById(id, (err, camp) => {
         if(err){
@@ -109,7 +109,7 @@ app.post('/camps/:id/comments', (req, res) => {
                     //connect camp to comment
                     camp.comments.push(comment);
                     camp.save();
-                    res.redirect(`/camps/${id}`);
+                    res.redirect(`/camps/${id}`, {currentUser: req.user});
                 }
             });
         }
@@ -128,14 +128,14 @@ app.post('/register', (req, res) => {
             res.redirect('/register');
         } else {
             passport.authenticate('local')(req, res, () => {
-                res.redirect('/camps');
+                res.redirect('/camps', {currentUser: req.user});
             });
         }
     });
 });
 //=====LOGIN=====//
 app.get('/login', (req, res) => {
-    res.render('login');
+    res.render('login', {currentUser: req.user});
 });
 
 app.post('/login', passport.authenticate('local', {
@@ -148,7 +148,7 @@ app.post('/login', passport.authenticate('local', {
 //=======LOGOUT======//
 app.get('/lougout', (req, res) => {
     req.logout();
-    res.redirect('/');
+    res.redirect('/', {currentUser: req.user});
 });
 
 //404 route - goes last
@@ -157,10 +157,12 @@ app.get('*', (req, res) => {
 });
 
 function loginCheck(req, res, next){
+
     if(req.isAuthenticated()){
         return next();
     } else {
-        res.redirect('/login');
+        const loginReq = `You must be logged in to post a comment. Please <a href="/login">Login</a> or <a href="/register"> Register</a>.`;
+        res.redirect('/login', {currentUser: req.user});
     }
 }
 
