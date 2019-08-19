@@ -42,8 +42,15 @@ app.use((req, res, next) => {
     next();
 });
 
-app.use(campgroundRoutes, commentRoutes, authRoutes);
+app.use('/', authRoutes);
+app.use('/camps', campgroundRoutes);
+app.use('/camps/:id/comments', commentRoutes);
 
+
+//404 route - goes last
+app.get('*', (req, res) => {
+    res.send('404 not found, press back');
+});
 app.listen(3000, () => {
     console.log('listening on port 3000');
 });

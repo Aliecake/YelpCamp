@@ -56,9 +56,6 @@ function loginCheck(req, res, next){
     }
 }
 
-//404 route - goes last
-router.get('*', (req, res) => {
-    res.send('404 not found, press back');
-});
+
 
 module.exports = router;
