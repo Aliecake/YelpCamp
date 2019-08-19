@@ -33,7 +33,7 @@ passport.use(User.createStrategy());
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
-//middleware to remove currentUser vars
+//middleware to remove currentUser
 app.use((req, res, next) => {
     res.locals.currentUser = req.user;
     next();
