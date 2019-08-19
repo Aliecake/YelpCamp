@@ -139,9 +139,7 @@ app.post('/register', (req, res) => {
         } else {
             passport.authenticate('local')(req, res, () => {
                 //redirect buddy, express deprecated res.redirect(url, status): Use res.redirect(status, url) instead
-                res.redirect('camps', {
-                    currentUser: req.user
-                });
+                res.redirect('camps');
             });
         }
     });
