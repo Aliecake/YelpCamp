@@ -33,17 +33,24 @@ passport.use(User.createStrategy());
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
+//middleware to remove currentUser vars
+app.use((req, res, next) => {
+    res.locals.currentUser = req.user;
+    next();
+});
+
 app.get('/', (req, res) => {
-    res.render('landing', {currentUser: req.user});
+    res.render('landing');
 });
 
 //INDEX - Show all
 app.get('/camps', (req, res) => {
+    console.log(req.user)
     Campground.find({}, (err, campgrounds) => {
         if(err) {
             console.log("error populating campgrounds from mongodb", err);
         } else {
-            res.render('camps/index', {campgrounds: campgrounds, currentUser: req.user});
+            res.render('camps/index', {campgrounds: campgrounds});
         }
     });
 });
@@ -66,9 +73,7 @@ app.post('/camps', (req, res) => {
 
 //NEW - Show form
 app.get('/camps/new', (req, res) => {
-    res.render('camps/new', {
-        currentUser: req.user
-    });
+    res.render('camps/new');
 });
 
 //SHOW further info on individual camps
@@ -79,8 +84,7 @@ app.get('/camps/:id', (req, res) => {
             console.log(err);
         } else {
             res.status(200).render('camps/show', {
-                camp: camp,
-                currentUser: req.user
+                camp: camp
             });
         }
     });
@@ -96,8 +100,7 @@ app.get('/camps/:id/comments/new', loginCheck, (req, res) => {
             res.send('Error finding that camp, press back');
         } else {
             res.render('comments/new', {
-                camp: camp,
-                currentUser: req.user
+                camp: camp
         });
         }
     });
@@ -126,9 +129,7 @@ app.post('/camps/:id/comments', loginCheck, (req, res) => {
 
 ///AUTH ROUTES - WILL BE MOVED//
 app.get('/register', (req, res) => {
-    res.render('register', {
-        currentUser: req.user
-    });
+    res.render('register');
 });
 ///====SIGN UP======//
 app.post('/register', (req, res) => {
@@ -146,7 +147,7 @@ app.post('/register', (req, res) => {
 //=====LOGIN=====//
 app.get('/login', (req, res) => {
     const loginReq = `Welcome!`;
-    res.render('login', {currentUser: req.user, loginReq: loginReq});
+    res.render('login', {loginReq: loginReq});
 });
 
 app.post('/login', passport.authenticate('local', {
@@ -174,7 +175,6 @@ function loginCheck(req, res, next){
     } else {
         const loginReq = `ERROR: You must be logged in to post a comment.`;
         res.render('login', {
-            currentUser: req.user,
             loginReq: loginReq
         });
     }
