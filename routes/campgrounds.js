@@ -17,6 +17,7 @@ router.get('/', (req, res) => {
 //CREATE - Add a new camp
 //want to save author username and ID
 router.post('/', loginCheck, (req, res) => {
+    //==========SANITIZE=========//
     Campground.create({
         name: req.body.name,
         img: req.body.image,
@@ -57,7 +58,33 @@ router.get('/:id', (req, res) => {
 });
 
 //edit individual camp /camps/:id/edit get
+router.get('/:id/edit', loginCheck, (req, res) => {
+    const id = req.params.id;
+    Campground.findById(id, (err, camp) => {
+        if (err) {
+            res.send(`There was an error finding that Campground. Press back and try again`, err);
+        } else {
+            res.render(`camps/edit`, {camp: camp});
+        }
+    });
+});
 //update individual camp /camps/:id put
+router.put('/:id', loginCheck, (req, res) => {
+    //==========SANITIZE=========//
+    const id = req.params.id;
+    const updateBody = {
+        name:  req.body.name,
+        img: req.body.image,
+        desc: req.body.description
+    };
+    Campground.findByIdAndUpdate(id, updateBody, (err, updatedCamp) => {
+        if(err){
+            res.send(`There was an error updating Camp`, err);
+        } else {
+            res.redirect(`/camps/${id}`);
+        }
+    });
+});
 
 router.delete('/:id', loginCheck, (req, res) => {
     const id = req.params.id;

@@ -1,0 +1,17 @@
+<% include ../partials/header %>
+<header class="jumbotron bg-secondary">
+    <h1>YelpCamp</h1>
+    <p>
+        <h4>Edit <%= camp['name'] %> </h4>
+    </p>
+</header>
+<div class="p-3 form-group col-md-6">
+    <form action="/camps/<%= camp['_id'] %>?_method=PUT" method="POST">
+        <input type="text" class="form-control mb-3" aria-label="Input Name of camp to add" name="name" value="<%=camp['name']%>" required="required">
+        <input type="text" class="form-control mb-3" aria-label="Input Image URL of camp" name="image" value="<%= camp['img'] %>" required="required">
+        <textarea class="form-control mb-3" rows="6" aria-label="Input Description of Camp" name="description" required="required"><%= camp['desc'] %></textarea>
+        <button class="btn btn-primary btn-md">Edit a Campground</button>
+    </form>
+</div>
+<a href="/">Home</a>
+<% include ../partials/footer %>
