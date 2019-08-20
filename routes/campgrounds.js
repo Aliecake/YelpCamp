@@ -1,13 +1,15 @@
 const express = require('express'),
     router = express.Router({mergeParams: true});
+    methodOverride = require('method-override'),
     Campground = require('../models/campgrounds');
+
 //INDEX - Show all
 router.get('/', (req, res) => {
-    Campground.find({}, (err, campgrounds) => {
+    Campground.find({}, (err, camps) => {
         if(err) {
             console.log("error populating campgrounds from mongodb", err);
         } else {
-            res.render('camps/index', {campgrounds: campgrounds});
+            res.render('camps/index', {camps: camps});
         }
     });
 });
@@ -51,6 +53,33 @@ router.get('/:id', (req, res) => {
         }
     });
 
+});
+
+//edit individual camp /camps/:id/edit get
+//update individual camp /camps/:id put
+//destroy individual camp /camps/:id delete
+
+router.delete('/:id', loginCheck, (req, res) => {
+    const id = req.params.id;
+    //if user is created user then delete
+    Campground.findById(id, (err, camp) => {
+        if (err) {
+            res.send(`Unable to find that Campground, press back and try again`);
+        } else {
+           if (camp.author.username === req.user.username) {
+                Campground.findByIdAndDelete(id, (err) => {
+                    if (err){
+                        res.send(`You have proper authorization, but there was an error`, err);
+                    } else {
+                        res.redirect('/camps');
+                    }
+                });
+           } else {
+               const notAuthorized = true;
+               res.redirect(`/camps/${id}?authorized=false`);
+           }
+        }
+    });
 });
 
 
