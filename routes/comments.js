@@ -33,7 +33,6 @@ router.post('/', loginCheck, (req, res) => {
                     comment.author.username = req.user.username;
                     comment.save();
                     camp.comments.push(comment);
-                    console.log(comment)
                     camp.save();
                     res.redirect(`/camps/${id}`);
                 }
