@@ -27,7 +27,7 @@ router.post('/', loginCheck, (req, res) => {
         }
     }, (err, camp) => {
         if(err) {
-            console.log("Error posting to DB", err);
+            res.send("Error posting to DB, press back and try again", err);
         } else {
             console.log("Added to DB", camp);
         }
@@ -58,7 +58,6 @@ router.get('/:id', (req, res) => {
 
 //edit individual camp /camps/:id/edit get
 //update individual camp /camps/:id put
-//destroy individual camp /camps/:id delete
 
 router.delete('/:id', loginCheck, (req, res) => {
     const id = req.params.id;
@@ -68,21 +67,23 @@ router.delete('/:id', loginCheck, (req, res) => {
             res.send(`Unable to find that Campground, press back and try again`);
         } else {
            if (camp.author.username === req.user.username) {
-                Campground.findByIdAndDelete(id, (err) => {
-                    if (err){
-                        res.send(`You have proper authorization, but there was an error`, err);
-                    } else {
-                        res.redirect('/camps');
-                    }
-                });
+              authorizedDelete(res, id);
            } else {
-               const notAuthorized = true;
                res.redirect(`/camps/${id}?authorized=false`);
            }
         }
     });
 });
 
+function authorizedDelete(res, id) {
+    Campground.findByIdAndDelete(id, (err) => {
+        if (err){
+            res.send(`You have proper authorization, but there was an error`, err);
+        } else {
+            res.redirect('/camps');
+        }
+    });
+}
 
 function loginCheck(req, res, next){
 
