@@ -20,21 +20,27 @@
             <div class="card mb-1">
                 <figure class="figure m-1">
                     <img class="figure-img card-img-top img-fluid rounded" src="<%= camp['img'] %>">
-                    <figcaption class="figure-caption">
-                        <span class="campName font-weight-bold text-uppercase">
-                            <a href="/"><%= camp['name'] %></a>
-                        </span>
-                        <span class="price">
-                            $9.00/night
-                        </span>
-                        <span class="author">
-                            Submitted by: <%= camp['author']['username']%>
-                        </span>
-                        <div class ="edit-form float-right">
-                            <button class="btn btn-sm btn-outline-primary" onclick="window.location.href='<%= camp['id'] %>/edit'">Edit</button>
-                            <form action="/camps/<%= camp["id"] %>?_method=DELETE" method="POST">
-                                <button class="btn btn-sm btn-warning">Delete</button>
-                            </form>
+                    <figcaption class="figure-caption row">
+                        <div class="col-sm-4">
+                            <span class="campName font-weight-bold text-uppercase">
+                                <a href="/"><%= camp['name'] %></a>
+                            </span>
+                            <span class="price">
+                                $9.00/night
+                            </span>
+                            <span class="author">
+                                Submitted by: <%= camp['author']['username']%>
+                            </span>
+                        </div>
+                        <div class="col-sm-4">
+                        </div>
+                        <div class ="col-sm-4">
+                            <div class="btn-group float-right">
+                                <button class="btn btn-sm btn-primary" onclick="window.location.href='<%= camp['id'] %>/edit'">Edit</button>
+                                <form action="/camps/<%= camp["id"] %>?_method=DELETE" method="POST">
+                                    <button class="btn btn-sm btn-warning">Delete</button>
+                                </form>
+                            </div>
                         </div>
                     </figcaption>
                 </figure>
