@@ -48,7 +48,8 @@ router.get('/:id', (req, res) => {
             console.log(err);
         } else {
             res.status(200).render('camps/show', {
-                camp: camp
+                camp: camp,
+                query: req.url
             });
         }
     });
