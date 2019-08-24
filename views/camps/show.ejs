@@ -68,6 +68,9 @@
                             <span class="float-md-right">
                                 <%= comment.created.toDateString() %>
                             </span>
+                            <span>
+                                <a href="/camps/<%= camp['_id']%>/comments/<%= comment['_id']%>/edit" class="btn btn-primary btn-sm m-1">Edit your comment</a>
+                            </span>
                             <p>
                                 <%= comment.text %>
                             </p>

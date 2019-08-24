@@ -6,7 +6,8 @@
     </p>
 </header>
 <div class="p-3 form-group col-md-6">
-    <form action="/comments/<%= camp['id'] %>?_method=PUT" method="POST">
+
+    <form action="/camps/<%= camp['id'] %>/comments/<%= comment['_id']%>?_method=PUT" method="POST">
         <textarea class="form-control mb-3" rows="6" aria-label="Input Comment about Camp" name="comment[text]" required="required"></textarea>
         <button class="btn btn-primary btn-md">Update comment <%= camp['name'] %></button>
     </form>

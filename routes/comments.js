@@ -1,5 +1,6 @@
 const express = require('express'),
     router = express.Router({mergeParams: true}),
+    methodOverride = require('method-override'),
     Comment = require('../models/comments');
 
 //====COMMENTS ROUTE====get
@@ -42,9 +43,38 @@ router.post('/', loginCheck, (req, res) => {
     });
 });
 
-//comment edit comment/id/edit get to show form
-router.get('/:id/edit', (req, res) => {
-    console.log(req.params);
+//comment edit /camps/:id/comments/:diffid/edit get to show form
+router.get('/:comment_id/edit', (req, res) => {
+    const id = req.params.id;
+    const commentId = req.params.comment_id;
+    //campground find by id or comment find by id
+    Comment.findById(commentId, (err, comment) => {
+        console.log(comment);
+        res.render(`comments/edit`, {
+            comment: comment,
+            camp: id
+        });
+    });
+});
+router.put('/:comment_id', (req, res) => {
+    const id = req.params.id;
+    const commentId = req.params.comment_id;
+    console.log(req.params.body);
+    const updateComment = {
+        text: req.params.body.text,
+        created: req.params.body.created,
+    };
+    //need camp ID still...
+    Comment.findByIdAndUpdate(commentId, updateComment, (err, comment) => {
+        if (err) {
+            console.log(`err updating comment`, err);
+        } else {
+            console.log(comment)
+            res.render(`camps/${id}`, {
+                comment: comment
+            });
+        }
+    });
 });
 //comment update comment/id/ put to put new comments
 //comment delete comment/id/delete
