@@ -19,6 +19,7 @@ router.get('/new', loginCheck, (req, res) => {
 
 //create comment POST route
 router.post('/', loginCheck, (req, res) => {
+    //==========SANITIZE=========//
     const id = req.params.id;
     Campground.findById(id, (err, camp) => {
         if(err){
@@ -40,6 +41,13 @@ router.post('/', loginCheck, (req, res) => {
         }
     });
 });
+
+//comment edit comment/id/edit get to show form
+router.get('/:id/edit', (req, res) => {
+    console.log(req.params);
+});
+//comment update comment/id/ put to put new comments
+//comment delete comment/id/delete
 
 function loginCheck(req, res, next){
 

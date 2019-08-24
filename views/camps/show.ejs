@@ -34,14 +34,18 @@
                         </div>
                         <div class="col-sm-4">
                         </div>
-                        <div class ="col-sm-4">
+                        <% if(currentUser) { %>
+                            <div class ="col-sm-4">
                             <div class="btn-group float-right">
                                 <button class="btn btn-sm btn-primary" onclick="window.location.href='<%= camp['id'] %>/edit'">Edit</button>
+                                <% if (camp.author.id.equals(currentUser._id)) { %>
                                 <form action="/camps/<%= camp["id"] %>?_method=DELETE" method="POST">
                                     <button class="btn btn-sm btn-warning">Delete</button>
                                 </form>
+                                <% } %>
                             </div>
                         </div>
+                       <% } %>
                     </figcaption>
                 </figure>
                 <div class="card-body">

@@ -44,6 +44,7 @@ router.get('/new', loginCheck, (req, res) => {
 //SHOW further info on individual camps
 router.get('/:id', (req, res) => {
     const id = req.params.id;
+
     Campground.findById(id).populate('comments').exec((err, camp) => {
         if(err) {
             console.log(err);
@@ -57,7 +58,7 @@ router.get('/:id', (req, res) => {
 
 });
 
-//edit individual camp /camps/:id/edit get
+//EDIT individual camp
 router.get('/:id/edit', loginCheck, (req, res) => {
     const id = req.params.id;
     Campground.findById(id, (err, camp) => {
@@ -68,7 +69,7 @@ router.get('/:id/edit', loginCheck, (req, res) => {
         }
     });
 });
-//update individual camp /camps/:id put
+//UPDATE individual
 router.put('/:id', loginCheck, (req, res) => {
     //==========SANITIZE=========//
     const id = req.params.id;
@@ -93,7 +94,7 @@ router.delete('/:id', loginCheck, (req, res) => {
         if (err) {
             res.send(`Unable to find that Campground, press back and try again`);
         } else {
-           if (camp.author.username === req.user.username) {
+           if (camp.author.id.equals(req.user._id)) {
               authorizedDelete(res, id);
            } else {
                res.redirect(`/camps/${id}?authorized=false`);
