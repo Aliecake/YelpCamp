@@ -27,13 +27,16 @@ router.post('/register', (req, res) => {
 });
 //=====LOGIN=====//
 router.get('/login', (req, res) => {
-    const loginReq = `Welcome!`;
-    res.render('login', {loginReq: loginReq});
+    let loginReq = `Welcome!`;
+    res.render('login', {
+        loginReq: loginReq,
+        baseUrl: req.url
+    });
 });
 
 router.post('/login', passport.authenticate('local', {
     successRedirect: '/camps',
-    failureRedirect: '/login'
+    failureRedirect: '/login?user=false'  //add alert user there is no login and to register
 }), (req, res) => {
     //callback
 });
