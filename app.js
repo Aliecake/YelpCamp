@@ -22,6 +22,7 @@ app.use(methodOverride('_method'));
 
 mongoose.connect('mongodb://localhost/yelp_camp_db', {useNewUrlParser: true});
 
+//this removes all campgrounds and comments then reseeds any time server is started for dev mode
 SeedDB();
 
 //PASSPORT CONFIG

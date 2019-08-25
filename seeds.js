@@ -31,38 +31,46 @@ const data = [
         }
     }
 ];
+
+const commentData = {
+            author: {
+                id: '5d628f51b49bff54e06c7ab0',
+                username: 'Susan'
+            },
+            text: 'Ashes tearing in drowning spooky at fanatic with murderer. Screams creaking tension kettle our exorcist. Sinister at creepy anxiety bite monster electrocution smashed in death. Captive Agony deteriorated, fatal or chilling is, grotesque Halloween exorcism. Virus witch demonic dripping, at werewolf psycho slice flames.',
+            created: Date.now(),
+            rating: 3
+        };
 //this removes all campgrounds
 seedDB = () => {
     Campground.deleteMany({}, (err) => {
         if(err){
             console.log('error removing camps', err);
         }
+        Comment.deleteMany({}, (err) => {
+            
+        });
          //add a few campgrounds
         data.forEach((seed) => {
             Campground.create(seed, (err, campground)=> {
                 if(err){
                     console.log('error creating seed', err);
                 } else {
-                      //add a few comments
-                    //   Comment.create(
-                    //       {
-                    //         text: 'This place was great, but I wish there was wifi',
-                    //         author: 'Homer',
-                    //         rating: 4
-                    //   }, (err, comment) => {
-                    //       if(err) {
-                    //           console.log('Error creating comments', err);
-                    //       } else {
-                    //         campground.comments.push(comment);
-                    //         campground.save();
-                    //         console.log('Created new comment');
-                    //       }
-                    //   });
-                    console.log('added camp');
+                    seedComments(campground);
                 }
             });
         });
     });
 };
+
+function seedComments(campground) {
+    Comment.create(commentData, (err, comment) => {
+        if(err) {
+            console.log(`error seeding comments`, err);
+        }
+        campground.comments.push(comment);
+        campground.save();
+    });
+}
 
 module.exports = seedDB;
