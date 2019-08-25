@@ -44,7 +44,6 @@ router.get('/new', loginCheck, (req, res) => {
 //SHOW further info on individual camps
 router.get('/:id', (req, res) => {
     const id = req.params.id;
-
     Campground.findById(id).populate('comments').exec((err, camp) => {
         if(err) {
             console.log(err);
