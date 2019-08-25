@@ -2,14 +2,14 @@
 <header class="jumbotron bg-secondary">
     <h1>YelpCamp</h1>
     <p>
-        <h4>Changed your mind? More to add?... Edit your comment at <%= camp['name'] %></h4>
+        <h4>Changed your mind? More to add?... Edit your comment</h4>
     </p>
 </header>
 <div class="p-3 form-group col-md-6">
 
-    <form action="/camps/<%= camp['id'] %>/comments/<%= comment['_id']%>?_method=PUT" method="POST">
-        <textarea class="form-control mb-3" rows="6" aria-label="Input Comment about Camp" name="comment[text]" required="required"></textarea>
-        <button class="btn btn-primary btn-md">Update comment <%= camp['name'] %></button>
+    <form action="/camps/<%= camp_id %>/comments/<%= comment['_id']%>?_method=PUT" method="POST">
+        <textarea class="form-control mb-3" rows="6" aria-label="Input Comment about Camp" name="comment[text]" required="required"><%=comment['text']%></textarea>
+        <button class="btn btn-primary btn-md">Update comment</button>
     </form>
 </div>
 <a href="/">Home</a>

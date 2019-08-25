@@ -49,30 +49,28 @@ router.get('/:comment_id/edit', (req, res) => {
     const commentId = req.params.comment_id;
     //campground find by id or comment find by id
     Comment.findById(commentId, (err, comment) => {
-        console.log(comment);
-        res.render(`comments/edit`, {
-            comment: comment,
-            camp: id
-        });
+        if (err){
+            res.send(`error trying to find that comment`);
+        } else {
+            res.render(`comments/edit`, {
+                comment: comment,
+                camp_id: id
+            });
+        }
     });
 });
+
 router.put('/:comment_id', (req, res) => {
-    const id = req.params.id;
     const commentId = req.params.comment_id;
-    console.log(req.params.body);
     const updateComment = {
-        text: req.params.body.text,
-        created: req.params.body.created,
+        text: req.body.comment.text,
+        created: Date.now()
     };
-    //need camp ID still...
     Comment.findByIdAndUpdate(commentId, updateComment, (err, comment) => {
         if (err) {
             console.log(`err updating comment`, err);
         } else {
-            console.log(comment)
-            res.render(`camps/${id}`, {
-                comment: comment
-            });
+            res.redirect(`/camps/${req.params.id}`);
         }
     });
 });
