@@ -41,14 +41,16 @@ const commentData = {
             created: Date.now(),
             rating: 3
         };
-//this removes all campgrounds
 seedDB = () => {
+    //this removes all campgrounds & comments
     Campground.deleteMany({}, (err) => {
         if(err){
             console.log('error removing camps', err);
         }
         Comment.deleteMany({}, (err) => {
-            
+            if(err) {
+                console.log(`error removing comments`, err);
+            }
         });
          //add a few campgrounds
         data.forEach((seed) => {
