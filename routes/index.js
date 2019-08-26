@@ -5,7 +5,7 @@ const express = require('express'),
 
 
     router.get('/', (req, res) => {
-    res.render('landing');
+        res.render('landing');
 });
 
 ///=======AUTH ROUTES========//
@@ -27,11 +27,7 @@ router.post('/register', (req, res) => {
 });
 //=====LOGIN=====//
 router.get('/login', (req, res) => {
-    let loginReq = `Welcome!`;
-    res.render('login', {
-        loginReq: loginReq,
-        baseUrl: req.url
-    });
+    res.render('login');
 });
 
 router.post('/login', passport.authenticate('local', {
@@ -44,6 +40,7 @@ router.post('/login', passport.authenticate('local', {
 //=======LOGOUT======//
 router.get('/logout', (req, res) => {
     req.logout();
+    req.flash('error', 'You have logged out!');
     res.redirect('/');
 });
 
@@ -52,10 +49,8 @@ function loginCheck(req, res, next){
     if(req.isAuthenticated()){
         return next();
     } else {
-        const loginReq = `ERROR: You must be logged in to do that!.`;
-        res.render('login', {
-            loginReq: loginReq
-        });
+        req.flash('error', 'please login');
+        res.redirect('/login');
     }
 }
 

@@ -9,6 +9,7 @@ const express = require('express'),
     methodOverride = require('method-override'),
     User = require('./models/users'),
     SeedDB = require('./seeds'),
+    flash = require('connect-flash'),
     //requiring routes
     campgroundRoutes = require('./routes/campgrounds'),
     commentRoutes = require('./routes/comments'),
@@ -19,6 +20,7 @@ app.set('view engine', 'ejs');
 app.use(express.static(__dirname + '/public'));
 app.use('*/dist', express.static(__dirname + '/public/dist'));
 app.use(methodOverride('_method'));
+app.use(flash());
 
 mongoose.connect('mongodb://localhost/yelp_camp_db', {useNewUrlParser: true});
 
@@ -41,6 +43,7 @@ passport.deserializeUser(User.deserializeUser());
 //middleware to remove currentUser
 app.use((req, res, next) => {
     res.locals.currentUser = req.user;
+    res.locals.message = req.flash('error');
     next();
 });
 

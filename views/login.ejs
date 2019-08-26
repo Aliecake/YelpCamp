@@ -1,16 +1,4 @@
 <% include partials/header %>
-<% if (typeof baseUrl !== 'undefined') { %>
-    <% var userExist = baseUrl.split('user=')[1] %>
-<% } else { %>
-   <% var baseUrl = ''%>
-<% } %>
-<% if(loginReq && loginReq === `ERROR: You must be logged in to do that!.`){ %>
-    <div class="warning"><%= loginReq %> Please <a href="/login">Login</a> or <a href="/register">Register</a></div>
-<% } else if (userExist !== 'false'){ %>
-    <div class="login">Welcome!</div>
-<%} else { %>
-    <div class="warning"> That username does not exist, Please <a href="/register"> Register</a></div>
-<%}%>
 <div class="forms">
     <h2>Log In</h2>
     <div class="form">
