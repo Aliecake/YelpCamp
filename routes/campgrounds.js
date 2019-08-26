@@ -9,7 +9,9 @@ router.get('/', (req, res) => {
         if(err) {
             console.log("error populating campgrounds from mongodb", err);
         } else {
-            res.render('camps/index', {camps: camps});
+            res.render('camps/index', {
+                camps: camps
+            });
         }
     });
 });
@@ -88,13 +90,13 @@ router.put('/:id', loginCheck, (req, res) => {
 
 router.delete('/:id', loginCheck, (req, res) => {
     const id = req.params.id;
-    //if user is created user then delete
     Campground.findById(id, (err, camp) => {
         if (err) {
             res.send(`Unable to find that Campground, press back and try again`);
         } else {
+             //if user is created user then delete
            if (camp.author.id.equals(req.user._id)) {
-              authorizedDelete(res, id);
+              authorizedDelete(res, id, Campground);
            } else {
                res.redirect(`/camps/${id}?authorized=false`);
            }
@@ -102,12 +104,12 @@ router.delete('/:id', loginCheck, (req, res) => {
     });
 });
 
-function authorizedDelete(res, id) {
-    Campground.findByIdAndDelete(id, (err) => {
+function authorizedDelete(res, id, label, redirect = '') {
+    label.findByIdAndDelete(id, (err) => {
         if (err){
             res.send(`You have proper authorization, but there was an error`, err);
         } else {
-            res.redirect('/camps');
+            res.redirect(`/camps/${redirect}`);
         }
     });
 }
