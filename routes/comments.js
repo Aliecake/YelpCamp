@@ -43,7 +43,7 @@ router.post('/', loginCheck, (req, res) => {
     });
 });
 
-router.get('/:comment_id/edit', (req, res) => {
+router.get('/:comment_id/edit', loginCheck, (req, res) => {
     const id = req.params.id;
     const commentId = req.params.comment_id;
     //campground find by id or comment find by id
@@ -59,7 +59,7 @@ router.get('/:comment_id/edit', (req, res) => {
     });
 });
 
-router.put('/:comment_id', (req, res) => {
+router.put('/:comment_id', loginCheck, (req, res) => {
     const commentId = req.params.comment_id;
     const updateComment = {
         text: req.body.comment.text,
@@ -74,17 +74,32 @@ router.put('/:comment_id', (req, res) => {
     });
 });
 
-router.delete('/:comment_id', (req, res) => {
-    console.log(req.params)
-    Comment.findByIdAndDelete(req.params.comment_id, (err) => {
-        if (err) {
-            console.log(`Error deleting comment`, err);
+router.delete('/:comment_id', loginCheck, (req, res) => {
+    const id = req.params.id;
+    const commentId = req.params.comment_id;
+    Comment.findById(commentId, (err, comment) => {
+        if (err){
+            res.redirect('back');
         } else {
-            res.redirect(`/camps/${req.params.id}`);
+            //if comment author id === req.user.id
+            if(comment.author.id.equals(req.user._id)) {
+                authorizedDelete(res, commentId, Comment, id);
+            } else {
+                res.redirect(`/camps/${id}?authorized=false`);
+            }
         }
     });
 });
 
+function authorizedDelete(res, id, label, redirect = '') {
+    label.findByIdAndDelete(id, (err) => {
+        if (err){
+            res.send(`You have proper authorization, but there was an error`, err);
+        } else {
+            res.redirect(`/camps/${redirect}`);
+        }
+    });
+}
 
 function loginCheck(req, res, next){
 

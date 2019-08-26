@@ -2,7 +2,7 @@
 <% var authParam = query.split('authorized=')[1] %>
 <% if(authParam === 'false') { %>
     <div class="warning">
-        You are not authorized to do that! Only the original author can delete a Campground!
+        You are not authorized to do that! Only the original author can delete that!
     </div>
 <% } %>
 <div class="container mt-3">
@@ -70,12 +70,14 @@
                             </span>
                             <p>
                                 <%= comment.text %>
-                                <div class="text-right btn-group">
-                                    <button class="btn btn-sm btn-primary" onclick="window.location.href='<%= camp['_id'] %>/comments/<%= comment['_id']%>/edit'">Edit Comment</button>
-                                    <form action="/camps/<%= camp['_id'] %>/comments/<%= comment['_id']%>?_method=DELETE" method="POST">
-                                        <button class="btn btn-sm btn-warning">Delete</button>
-                                    </form>
-                                </div>
+                                <% if (currentUser && comment.author.id.equals(currentUser._id)) { %>
+                                    <div class="btn-group">
+                                        <button class="btn btn-sm btn-primary" onclick="window.location.href='<%= camp['_id'] %>/comments/<%= comment['_id']%>/edit'">Edit Comment</button>
+                                        <form action="/camps/<%= camp['_id'] %>/comments/<%= comment['_id']%>?_method=DELETE" method="POST">
+                                            <button class="btn btn-sm btn-warning">Delete</button>
+                                        </form>
+                                    </div>
+                                <% } %>
                             </p>
                         </div>
                     </div>
