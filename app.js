@@ -43,7 +43,8 @@ passport.deserializeUser(User.deserializeUser());
 //middleware to remove currentUser
 app.use((req, res, next) => {
     res.locals.currentUser = req.user;
-    res.locals.message = req.flash('error');
+    res.locals.error = req.flash('error');
+    res.locals.success = req.flash('success');
     next();
 });
 
@@ -54,7 +55,9 @@ app.use('/camps/:id/comments', commentRoutes);
 
 //404 route - goes last
 app.get('*', (req, res) => {
-    res.send('404 not found, press back');
+    const page = req.url;
+    req.flash('error', `ERROR: ${page} 404 Page Not Found. Contact admin if you feel this is an error`);
+    res.redirect('/');
 });
 app.listen(3000, () => {
     console.log('listening on port 3000');

@@ -97,7 +97,7 @@ router.delete('/:id', middleware.loginCheck, (req, res) => {
         } else {
              //if user is created user then delete
            if (camp.author.id.equals(req.user._id)) {
-               middleware.authorizedDelete(res, id, Campground);
+               middleware.authorizedDelete(req, res, id, Campground);
            } else {
                res.redirect(`/camps/${id}?authorized=false`);
            }

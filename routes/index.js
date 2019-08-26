@@ -16,10 +16,11 @@ router.get('/register', (req, res) => {
 router.post('/register', (req, res) => {
     User.register(new User({username: req.body.username}), req.body.password, (err, user) => {
         if(err) {
-            res.send(`There was an error, press back and try again: ${err.toString()}`);
+            req.flash(`error`, `ERROR: There was an error registering. Try again <p>${err}<p>`);
             res.render('/register');
         } else {
             passport.authenticate('local')(req, res, () => {
+                req.flash(`success`, `Welcome! Thanks for signing up ${req.body.username}!`);
                 res.redirect('camps');
             });
         }
@@ -32,7 +33,7 @@ router.get('/login', (req, res) => {
 
 router.post('/login', passport.authenticate('local', {
     successRedirect: '/camps',
-    failureRedirect: '/login?user=false'  //add alert user there is no login and to register
+    failureRedirect: '/login'
 }), (req, res) => {
     //callback
 });
@@ -40,20 +41,8 @@ router.post('/login', passport.authenticate('local', {
 //=======LOGOUT======//
 router.get('/logout', (req, res) => {
     req.logout();
-    req.flash('error', 'You have logged out!');
+    req.flash('success', 'Success: You have logged out!');
     res.redirect('/');
 });
-
-function loginCheck(req, res, next){
-
-    if(req.isAuthenticated()){
-        return next();
-    } else {
-        req.flash('error', 'please login');
-        res.redirect('/login');
-    }
-}
-
-
 
 module.exports = router;

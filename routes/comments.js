@@ -72,7 +72,7 @@ router.put('/:comment_id', middleware.loginCheck, (req, res) => {
             console.log(`error finding that comment`, err);
         } else {
             if(comment.author.id.equals(req.user._id)) {
-                middleware.authorizedUpdate(res, commentId, Comment, updateComment, id);
+                middleware.authorizedUpdate(req, res, commentId, Comment, updateComment, id);
             } else {
                 res.redirect(`/camps/${id}?authorized=false`);
             }
@@ -89,7 +89,7 @@ router.delete('/:comment_id', middleware.loginCheck, (req, res) => {
         } else {
             //if comment author id === req.user.id
             if(comment.author.id.equals(req.user._id)) {
-                middleware.authorizedDelete(res, commentId, Comment, id);
+                middleware.authorizedDelete(req, res, commentId, Comment, id);
             } else {
                 res.redirect(`/camps/${id}?authorized=false`);
             }
