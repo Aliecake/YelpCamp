@@ -1,7 +1,8 @@
 const express = require('express'),
     router = express.Router({mergeParams: true});
     methodOverride = require('method-override'),
-    Campground = require('../models/campgrounds');
+    Campground = require('../models/campgrounds'),
+    middleware = require('../middleware');
 
 //INDEX - Show all
 router.get('/', (req, res) => {
@@ -18,7 +19,7 @@ router.get('/', (req, res) => {
 
 //CREATE - Add a new camp
 //want to save author username and ID
-router.post('/', loginCheck, (req, res) => {
+router.post('/', middleware.loginCheck, (req, res) => {
     //==========SANITIZE=========//
     Campground.create({
         name: req.body.name,
@@ -39,7 +40,7 @@ router.post('/', loginCheck, (req, res) => {
 });
 
 //NEW - Show form
-router.get('/new', loginCheck, (req, res) => {
+router.get('/new', middleware.loginCheck, (req, res) => {
     res.render('camps/new');
 });
 
@@ -60,7 +61,7 @@ router.get('/:id', (req, res) => {
 });
 
 //EDIT individual camp
-router.get('/:id/edit', loginCheck, (req, res) => {
+router.get('/:id/edit', middleware.loginCheck, (req, res) => {
     const id = req.params.id;
     Campground.findById(id, (err, camp) => {
         if (err) {
@@ -71,7 +72,7 @@ router.get('/:id/edit', loginCheck, (req, res) => {
     });
 });
 //UPDATE individual
-router.put('/:id', loginCheck, (req, res) => {
+router.put('/:id', middleware.loginCheck, (req, res) => {
     //==========SANITIZE=========//
     const id = req.params.id;
     const updateBody = {
@@ -88,7 +89,7 @@ router.put('/:id', loginCheck, (req, res) => {
     });
 });
 
-router.delete('/:id', loginCheck, (req, res) => {
+router.delete('/:id', middleware.loginCheck, (req, res) => {
     const id = req.params.id;
     Campground.findById(id, (err, camp) => {
         if (err) {
@@ -96,34 +97,12 @@ router.delete('/:id', loginCheck, (req, res) => {
         } else {
              //if user is created user then delete
            if (camp.author.id.equals(req.user._id)) {
-              authorizedDelete(res, id, Campground);
+               middleware.authorizedDelete(res, id, Campground);
            } else {
                res.redirect(`/camps/${id}?authorized=false`);
            }
         }
     });
 });
-
-function authorizedDelete(res, id, label, redirect = '') {
-    label.findByIdAndDelete(id, (err) => {
-        if (err){
-            res.send(`You have proper authorization, but there was an error`, err);
-        } else {
-            res.redirect(`/camps/${redirect}`);
-        }
-    });
-}
-
-function loginCheck(req, res, next){
-
-    if(req.isAuthenticated()){
-        return next();
-    } else {
-        const loginReq = `ERROR: You must be logged in to do that!.`;
-        res.render('login', {
-            loginReq: loginReq
-        });
-    }
-}
 
 module.exports = router;

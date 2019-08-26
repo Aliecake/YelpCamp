@@ -1,11 +1,12 @@
 const express = require('express'),
     router = express.Router({mergeParams: true}),
     methodOverride = require('method-override'),
-    Comment = require('../models/comments');
+    Comment = require('../models/comments'),
+    middleware = require('../middleware');
 
 //====COMMENTS ROUTE====get
 
-router.get('/new', loginCheck, (req, res) => {
+router.get('/new', middleware.loginCheck, (req, res) => {
     const id = req.params.id;
     Campground.findById(id, (err, camp) => {
         if(err) {
@@ -19,7 +20,7 @@ router.get('/new', loginCheck, (req, res) => {
 });
 
 //create comment POST route
-router.post('/', loginCheck, (req, res) => {
+router.post('/', middleware.loginCheck, (req, res) => {
     //==========SANITIZE=========//
     const id = req.params.id;
     Campground.findById(id, (err, camp) => {
@@ -43,7 +44,7 @@ router.post('/', loginCheck, (req, res) => {
     });
 });
 
-router.get('/:comment_id/edit', loginCheck, (req, res) => {
+router.get('/:comment_id/edit', middleware.loginCheck, (req, res) => {
     const id = req.params.id;
     const commentId = req.params.comment_id;
     //campground find by id or comment find by id
@@ -59,7 +60,7 @@ router.get('/:comment_id/edit', loginCheck, (req, res) => {
     });
 });
 
-router.put('/:comment_id', loginCheck, (req, res) => {
+router.put('/:comment_id', middleware.loginCheck, (req, res) => {
     const id = req.params.id;
     const commentId = req.params.comment_id;
     const updateComment = {
@@ -71,7 +72,7 @@ router.put('/:comment_id', loginCheck, (req, res) => {
             console.log(`error finding that comment`, err);
         } else {
             if(comment.author.id.equals(req.user._id)) {
-                authorizedUpdate(res, commentId, Comment, updateComment, id);
+                middleware.authorizedUpdate(res, commentId, Comment, updateComment, id);
             } else {
                 res.redirect(`/camps/${id}?authorized=false`);
             }
@@ -79,7 +80,7 @@ router.put('/:comment_id', loginCheck, (req, res) => {
     });
 });
 
-router.delete('/:comment_id', loginCheck, (req, res) => {
+router.delete('/:comment_id', middleware.loginCheck, (req, res) => {
     const id = req.params.id;
     const commentId = req.params.comment_id;
     Comment.findById(commentId, (err, comment) => {
@@ -88,44 +89,12 @@ router.delete('/:comment_id', loginCheck, (req, res) => {
         } else {
             //if comment author id === req.user.id
             if(comment.author.id.equals(req.user._id)) {
-                authorizedDelete(res, commentId, Comment, id);
+                middleware.authorizedDelete(res, commentId, Comment, id);
             } else {
                 res.redirect(`/camps/${id}?authorized=false`);
             }
         }
     });
 });
-
-function authorizedUpdate(res, id, label, body, redirect =''){
-    label.findByIdAndUpdate(id,  body, (err) => {
-        if (err) {
-            console.log(`You are authorized to do that, but there was an error`, err);
-        } else {
-            res.redirect(`/camps/${redirect}`);
-        }
-    });
-}
-
-function authorizedDelete(res, id, label, redirect = '') {
-    label.findByIdAndDelete(id, (err) => {
-        if (err){
-            res.send(`You have proper authorization, but there was an error`, err);
-        } else {
-            res.redirect(`/camps/${redirect}`);
-        }
-    });
-}
-
-function loginCheck(req, res, next){
-
-    if(req.isAuthenticated()){
-        return next();
-    } else {
-        const loginReq = `ERROR: You must be logged in to do that!.`;
-        res.render('login', {
-            loginReq: loginReq
-        });
-    }
-}
 
 module.exports = router;
