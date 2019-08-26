@@ -60,16 +60,21 @@ router.get('/:comment_id/edit', loginCheck, (req, res) => {
 });
 
 router.put('/:comment_id', loginCheck, (req, res) => {
+    const id = req.params.id;
     const commentId = req.params.comment_id;
     const updateComment = {
         text: req.body.comment.text,
         created: Date.now()
     };
-    Comment.findByIdAndUpdate(commentId, updateComment, (err, comment) => {
-        if (err) {
-            console.log(`err updating comment`, err);
+    Comment.findById(commentId, (err, comment) => {
+        if(err){
+            console.log(`error finding that comment`, err);
         } else {
-            res.redirect(`/camps/${req.params.id}`);
+            if(comment.author.id.equals(req.user._id)) {
+                authorizedUpdate(res, commentId, Comment, updateComment, id);
+            } else {
+                res.redirect(`/camps/${id}?authorized=false`);
+            }
         }
     });
 });
@@ -90,6 +95,16 @@ router.delete('/:comment_id', loginCheck, (req, res) => {
         }
     });
 });
+
+function authorizedUpdate(res, id, label, body, redirect =''){
+    label.findByIdAndUpdate(id,  body, (err) => {
+        if (err) {
+            console.log(`You are authorized to do that, but there was an error`, err);
+        } else {
+            res.redirect(`/camps/${redirect}`);
+        }
+    });
+}
 
 function authorizedDelete(res, id, label, redirect = '') {
     label.findByIdAndDelete(id, (err) => {
