@@ -68,11 +68,14 @@
                             <span class="float-md-right">
                                 <%= comment.created.toDateString() %>
                             </span>
-                            <span>
-                                <a href="/camps/<%= camp['_id']%>/comments/<%= comment['_id']%>/edit" class="btn btn-primary btn-sm m-1">Edit your comment</a>
-                            </span>
                             <p>
                                 <%= comment.text %>
+                                <div class="text-right btn-group">
+                                    <button class="btn btn-sm btn-primary" onclick="window.location.href='<%= camp['_id'] %>/comments/<%= comment['_id']%>/edit'">Edit Comment</button>
+                                    <form action="/camps/<%= camp['_id'] %>/comments/<%= comment['_id']%>?_method=DELETE" method="POST">
+                                        <button class="btn btn-sm btn-warning">Delete</button>
+                                    </form>
+                                </div>
                             </p>
                         </div>
                     </div>

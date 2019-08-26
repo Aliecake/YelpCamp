@@ -43,7 +43,6 @@ router.post('/', loginCheck, (req, res) => {
     });
 });
 
-//comment edit /camps/:id/comments/:diffid/edit get to show form
 router.get('/:comment_id/edit', (req, res) => {
     const id = req.params.id;
     const commentId = req.params.comment_id;
@@ -74,8 +73,18 @@ router.put('/:comment_id', (req, res) => {
         }
     });
 });
-//comment update comment/id/ put to put new comments
-//comment delete comment/id/delete
+
+router.delete('/:comment_id', (req, res) => {
+    console.log(req.params)
+    Comment.findByIdAndDelete(req.params.comment_id, (err) => {
+        if (err) {
+            console.log(`Error deleting comment`, err);
+        } else {
+            res.redirect(`/camps/${req.params.id}`);
+        }
+    });
+});
+
 
 function loginCheck(req, res, next){
 
