@@ -5,7 +5,7 @@
   "main": "app.js",
   "scripts": {
     "serve": "npm run watch && npm run build",
-    "start": "nodemon app.js",
+    "start": "node app.js",
     "build": "webpack-dev-server --progress --colors",
     "watch": "webpack -w",
     "test": "echo \"Error: no test specified\" && exit 1"
