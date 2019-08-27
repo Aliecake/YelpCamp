@@ -59,6 +59,6 @@ app.get('*', (req, res) => {
     req.flash('error', `ERROR: ${page} 404 Page Not Found. Contact admin if you feel this is an error`);
     res.redirect('/');
 });
-app.listen(3000, () => {
+app.listen(process.env.PORT || 3000, () => {
     console.log('listening on port 3000');
 });
