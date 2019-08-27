@@ -79,11 +79,12 @@ router.put('/:id', middleware.loginCheck, (req, res) => {
     const id = req.params.id;
     const updateBody = {
         name:  req.body.name,
+        price: req.body.price,
         img: req.body.image,
         desc: req.body.description
     };
     Campground.findByIdAndUpdate(id, updateBody, (err, updatedCamp) => {
-        if(err || updatedCamp){
+        if(err || !updatedCamp){
             middleware.errorHandling(req, res, err);
         } else {
             req.flash('success', `${updateBody.name} successfully updated.`);
