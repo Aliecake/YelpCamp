@@ -52,8 +52,7 @@ router.get('/:id', (req, res) => {
             middleware.errorHandling(req, res, err);
         } else {
             res.status(200).render('camps/show', {
-                camp: camp,
-                query: req.url
+                camp: camp
             });
         }
     });
@@ -67,7 +66,9 @@ router.get('/:id/edit', middleware.loginCheck, (req, res) => {
         if (err || !camp) {
             middleware.errorHandling(req, res, err);
         } else {
-            res.render(`camps/edit`, {camp: camp});
+            res.render(`camps/edit`, {
+                camp: camp
+            });
         }
     });
 });
@@ -100,7 +101,8 @@ router.delete('/:id', middleware.loginCheck, (req, res) => {
            if (camp.author.id.equals(req.user._id)) {
                middleware.authorizedDelete(req, res, id, Campground);
            } else {
-               res.redirect(`/camps/${id}?authorized=false`);
+               req.flash('error', `You are not authorized to do that. Only the original author can delete a camp.`);
+               res.redirect(`/camps/${id}`);
            }
         }
     });

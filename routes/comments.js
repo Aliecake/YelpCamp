@@ -75,7 +75,7 @@ router.put('/:comment_id', middleware.loginCheck, (req, res) => {
                 middleware.authorizedUpdate(req, res, commentId, Comment, updateComment, id);
             } else {
                 req.flash('error', `You are not authorized to update that. Only the original author can do that`);
-                res.redirect(`/camps/${id}?authorized=false`);
+                res.redirect(`/camps/${id}`);
             }
         }
     });
@@ -93,7 +93,7 @@ router.delete('/:comment_id', middleware.loginCheck, (req, res) => {
                 middleware.authorizedDelete(req, res, commentId, Comment, id);
             } else {
                 req.flash('error', `You are not authorized to delete that. Only the original author can do that`);
-                res.redirect(`/camps/${id}?authorized=false`);
+                res.redirect(`/camps/${id}`);
             }
         }
     });
