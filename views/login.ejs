@@ -1,4 +1,10 @@
 <% include partials/header %>
+<% var loginError = query.split('_failure=')[1] %>
+<% if(loginError === 'true') { %>
+    <div class="alert alert-danger message">
+        Unable to login. Did you type the wrong username or password? Are you<a href="/register"> Registered</a>
+    </div>
+<% } %>
 <div class="forms">
     <h2>Log In</h2>
     <div class="form">

@@ -27,12 +27,14 @@ router.post('/register', (req, res) => {
 });
 //=====LOGIN=====//
 router.get('/login', (req, res) => {
-    res.render('login');
+    res.render('login', {
+        query: req.url
+    });
 });
 
 router.post('/login', passport.authenticate('local', {
     successRedirect: '/camps',
-    failureRedirect: '/login' //error for wrong login credentials?
+    failureRedirect: '/login?_failure=true' //error for wrong login credentials?
 }), (req, res) => {
     //callback
 });
