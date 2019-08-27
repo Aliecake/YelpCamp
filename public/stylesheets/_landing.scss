@@ -57,7 +57,7 @@ h1 {
     animation-delay: 40s;
   }
 
-  @keyframes imageAnimation {
+@keyframes imageAnimation {
     0% {
       opacity: 0;
       animation-timing-function: ease-in;
@@ -72,5 +72,9 @@ h1 {
     30% {
       opacity: 0
     }
-  }
+}
+/* Older browser support - .no-cssanimations class added by modernizr */
+.no-cssanimations .slideshow li {
+  opacity: 1;
+}
 
