@@ -35,8 +35,7 @@
     "passport-local": "^1.0.0",
     "passport-local-mongoose": "^5.0.1",
     "path": "^0.12.7",
-    "popper.js": "^1.15.0",
-    "resolve-url-loader": "^3.1.0"
+    "popper.js": "^1.15.0"
   },
   "devDependencies": {
     "autoprefixer": "^9.6.1",
