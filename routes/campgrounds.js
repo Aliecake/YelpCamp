@@ -24,6 +24,7 @@ router.post('/', middleware.loginCheck, (req, res) => {
     Campground.create({
         name: req.body.name,
         img: req.body.image,
+        price: req.body.price,
         desc: req.body.description,
         author: {
             username: req.user.username,

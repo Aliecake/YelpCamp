@@ -4,6 +4,7 @@ const campsSchema = new mongoose.Schema ({
     name: String,
     img: String,
     desc: String,
+    price: String,
     author: {
         id: {
             type: mongoose.Schema.Types.ObjectId,
