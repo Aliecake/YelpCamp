@@ -9,6 +9,7 @@
     <form action="/camps/<%= camp['_id'] %>?_method=PUT" method="POST">
         <input type="text" class="form-control mb-3" aria-label="Input Name of camp to add" name="name" value="<%=camp['name']%>" required="required">
         <input type="text" class="form-control mb-3" aria-label="Input Image URL of camp" name="image" value="<%= camp['img'] %>" required="required">
+        <input type="number" class="form-control mb-3" aria-label="Input price per night of camp" name="price" value="<%= camp['price'] %>" required="required" min="0.01" step="0.01">
         <textarea class="form-control mb-3" rows="6" aria-label="Input Description of Camp" name="description" required="required"><%= camp['desc'] %></textarea>
         <button class="btn btn-primary btn-md">Edit a Campground</button>
     </form>

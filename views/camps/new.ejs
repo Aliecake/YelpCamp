@@ -9,7 +9,7 @@
     <form action="/camps" method="POST">
         <input type="text" class="form-control mb-3" aria-label="Input Name of camp to add" name="name" placeholder="Name of Camp" required="required">
         <input type="text" class="form-control mb-3" aria-label="Input Image URL of camp" name="image" placeholder="https://www.example.com/image.jpeg" required="required">
-        <input type="text" class="form-control mb-3" aria-label="Input price per night of camp" name="price" placeholder="$9.00" required="required">
+        <input type="number" class="form-control mb-3" aria-label="Input price per night of camp" name="price" placeholder="0.01" required="required" min="0.01" step="0.01">
         <textarea class="form-control mb-3" rows="6" aria-label="Input Description of Camp" name="description" required="required"></textarea>
         <button class="btn btn-primary btn-md">Add a Campground</button>
     </form>
