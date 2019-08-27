@@ -9,8 +9,8 @@ const express = require('express'),
 router.get('/new', middleware.loginCheck, (req, res) => {
     const id = req.params.id;
     Campground.findById(id, (err, camp) => {
-        if(err) {
-            res.send('Error finding that camp, press back');
+        if(err || !camp) {
+            middleware.errorHandling(req, res, err);
         } else {
             res.render('comments/new', {
                 camp: camp
@@ -24,12 +24,12 @@ router.post('/', middleware.loginCheck, (req, res) => {
     //==========SANITIZE=========//
     const id = req.params.id;
     Campground.findById(id, (err, camp) => {
-        if(err){
-            console.log(err);
+        if(err || !camp){
+            middleware.errorHandling(req, res, err);
         } else {
             Comment.create(req.body.comment, (err, comment) => {
-                if(err) {
-                    console.log("Error posting comment to DB", err);
+                if(err || !comment) {
+                    middleware.errorHandling(req, res, err);
                 } else {
                     //add username and id to comment
                     comment.author.id = req.user._id;
@@ -49,8 +49,8 @@ router.get('/:comment_id/edit', middleware.loginCheck, (req, res) => {
     const commentId = req.params.comment_id;
     //campground find by id or comment find by id
     Comment.findById(commentId, (err, comment) => {
-        if (err){
-            res.send(`error trying to find that comment`);
+        if (err || !comment){
+            middleware.errorHandling(req, res, err);
         } else {
             res.render(`comments/edit`, {
                 comment: comment,
@@ -68,12 +68,13 @@ router.put('/:comment_id', middleware.loginCheck, (req, res) => {
         created: Date.now()
     };
     Comment.findById(commentId, (err, comment) => {
-        if(err){
-            console.log(`error finding that comment`, err);
+        if(err || !comment){
+            middleware.errorHandling(req, res, err);
         } else {
             if(comment.author.id.equals(req.user._id)) {
                 middleware.authorizedUpdate(req, res, commentId, Comment, updateComment, id);
             } else {
+                req.flash('error', `You are not authorized to update that. Only the original author can do that`);
                 res.redirect(`/camps/${id}?authorized=false`);
             }
         }
@@ -84,13 +85,14 @@ router.delete('/:comment_id', middleware.loginCheck, (req, res) => {
     const id = req.params.id;
     const commentId = req.params.comment_id;
     Comment.findById(commentId, (err, comment) => {
-        if (err){
-            res.redirect('back');
+        if (err || !comment){
+            middleware.errorHandling(req, res, err);
         } else {
             //if comment author id === req.user.id
             if(comment.author.id.equals(req.user._id)) {
                 middleware.authorizedDelete(req, res, commentId, Comment, id);
             } else {
+                req.flash('error', `You are not authorized to delete that. Only the original author can do that`);
                 res.redirect(`/camps/${id}?authorized=false`);
             }
         }

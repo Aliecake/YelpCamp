@@ -15,9 +15,8 @@ router.get('/register', (req, res) => {
 ///====SIGN UP======//
 router.post('/register', (req, res) => {
     User.register(new User({username: req.body.username}), req.body.password, (err, user) => {
-        if(err) {
-            req.flash(`error`, `ERROR: There was an error registering. Try again <p>${err}<p>`);
-            res.render('/register');
+        if(err || !user) {
+            middleware.errorHandling(req, res, err);
         } else {
             passport.authenticate('local')(req, res, () => {
                 req.flash(`success`, `Welcome! Thanks for signing up ${req.body.username}!`);
@@ -33,7 +32,7 @@ router.get('/login', (req, res) => {
 
 router.post('/login', passport.authenticate('local', {
     successRedirect: '/camps',
-    failureRedirect: '/login'
+    failureRedirect: '/login' //error for wrong login credentials?
 }), (req, res) => {
     //callback
 });

@@ -7,8 +7,8 @@ const express = require('express'),
 //INDEX - Show all
 router.get('/', (req, res) => {
     Campground.find({}, (err, camps) => {
-        if(err) {
-            console.log("error populating campgrounds from mongodb", err);
+        if(err || !camps) {
+            middleware.errorHandling(req, res, err);
         } else {
             res.render('camps/index', {
                 camps: camps
@@ -30,10 +30,10 @@ router.post('/', middleware.loginCheck, (req, res) => {
             id: req.user._id
         }
     }, (err, camp) => {
-        if(err) {
-            res.send("Error posting to DB, press back and try again", err);
+        if(err || !camp) {
+            middleware.errorHandling(req, res, err);
         } else {
-            console.log("Added to DB", camp);
+            req.flash('success', `${camp.name} added to YelpCamp.`);
         }
     });
     res.redirect('/camps');
@@ -48,8 +48,8 @@ router.get('/new', middleware.loginCheck, (req, res) => {
 router.get('/:id', (req, res) => {
     const id = req.params.id;
     Campground.findById(id).populate('comments').exec((err, camp) => {
-        if(err) {
-            console.log(err);
+        if(err || !camp) {
+            middleware.errorHandling(req, res, err);
         } else {
             res.status(200).render('camps/show', {
                 camp: camp,
@@ -64,8 +64,8 @@ router.get('/:id', (req, res) => {
 router.get('/:id/edit', middleware.loginCheck, (req, res) => {
     const id = req.params.id;
     Campground.findById(id, (err, camp) => {
-        if (err) {
-            res.send(`There was an error finding that Campground. Press back and try again`, err);
+        if (err || !camp) {
+            middleware.errorHandling(req, res, err);
         } else {
             res.render(`camps/edit`, {camp: camp});
         }
@@ -81,9 +81,10 @@ router.put('/:id', middleware.loginCheck, (req, res) => {
         desc: req.body.description
     };
     Campground.findByIdAndUpdate(id, updateBody, (err, updatedCamp) => {
-        if(err){
-            res.send(`There was an error updating Camp`, err);
+        if(err || updatedCamp){
+            middleware.errorHandling(req, res, err);
         } else {
+            req.flash('success', `${updateBody.name} successfully updated.`);
             res.redirect(`/camps/${id}`);
         }
     });
@@ -92,8 +93,8 @@ router.put('/:id', middleware.loginCheck, (req, res) => {
 router.delete('/:id', middleware.loginCheck, (req, res) => {
     const id = req.params.id;
     Campground.findById(id, (err, camp) => {
-        if (err) {
-            res.send(`Unable to find that Campground, press back and try again`);
+        if (err || !camp) {
+            middleware.errorHandling(req, res, err);
         } else {
              //if user is created user then delete
            if (camp.author.id.equals(req.user._id)) {
