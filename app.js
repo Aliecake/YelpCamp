@@ -22,7 +22,9 @@ app.use('*/dist', express.static(__dirname + '/public/dist'));
 app.use(methodOverride('_method'));
 app.use(flash());
 
-mongoose.connect('mongodb+srv://Aliecake:DZ28DVnNTvoJj1vj@cluster0-t4lx6.mongodb.net/yelpCamp?retryWrites=true&w=majority', {useNewUrlParser: true});
+const URL = process.env.DATABASE_URL || 'mongodb://localhost/yelp_camp_db';
+
+mongoose.connect(URL , {useNewUrlParser: true});
 
 //this removes all campgrounds and comments then reseeds any time server is started for dev mode
 SeedDB();
